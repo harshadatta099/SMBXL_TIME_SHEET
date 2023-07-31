@@ -13,13 +13,11 @@ import HRComponent from './components/HR/HRComponent'
 import AdminComponent from './components/Admin/AdminComponent'
 
 import Navbar from './components/Navbar'
-import GetUsers from './components/HR/GetUsers'
-import GetAllData from './components/Admin/GetAllData'
 import TableData from './components/Admin/TableData'
 import Login from './components/Login'
 import Signup from './components/Signup'
-import User from './components/User/User'
 import NotFoundPage from './components/NotFound/NotFound'
+import { AuthGuard } from './Auth'
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -41,7 +39,9 @@ const App = () => {
       <Navbar userRole={userRole} />
 
       <Routes>
-        <Route path='/' element={<Login />} />
+        <Route path='/' element={
+          <AuthGuard element={<Login/>}/>
+        } />
         <Route path='/signup' element={<Signup />} />
 
         {/* User Routes */}

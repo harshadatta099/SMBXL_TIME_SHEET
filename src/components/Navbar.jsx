@@ -11,7 +11,6 @@ const NavBar = ({ userRole }) => {
     console.log('logout');
     localStorage.setItem('isLoggedIn', false);
     localStorage.setItem('user', null);
- 
     navigate('/');
   };
   if (hideHeader) {
