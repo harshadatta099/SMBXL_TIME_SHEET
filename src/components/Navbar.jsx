@@ -42,7 +42,7 @@ const NavBar = ({ userRole }) => {
           {userRole === 'admin' && (
             <>
               <Nav.Link as={Link} to="/admin/">Home</Nav.Link>
-              <Nav.Link as={Link} to="/admin/user-records">Users</Nav.Link>
+              <Nav.Link as={Link} to="/admin/user-records">User Records</Nav.Link>
               <Nav.Link as={Link} to="/admin/projects">Projects</Nav.Link>
               <Nav.Link as={Link} to="/admin/activities">Activity</Nav.Link>
             </>

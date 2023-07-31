@@ -6,6 +6,7 @@ const User = () => {
   return (
     <div>
       <AddTasks />
+      <br />
       <FetchData />
     </div>
   )

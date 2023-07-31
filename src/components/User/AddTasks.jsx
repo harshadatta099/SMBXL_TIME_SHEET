@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { Container, Table, Form, Button } from 'react-bootstrap'
 import axios from 'axios'
 import {
-  fetchUserDataByUserId,
   fetchAllProjects,
   fetchAllActivities
 } from '../../services/API'
@@ -35,6 +34,7 @@ const AddTasks = () => {
     fetchAllProjects().then(data => setProjectNames(data))
     fetchAllActivities().then(data => setActivityNames(data))
   }, [])
+  const tokenid = localStorage.getItem('tokenid');
 
   const formatDate = date => {
     const options = {
@@ -46,7 +46,7 @@ const AddTasks = () => {
     return date.toLocaleDateString(undefined, options)
   }
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     const todayIndex = weekDates.findIndex(
       date => date.toDateString() === today.toDateString()
     )
@@ -77,9 +77,9 @@ const AddTasks = () => {
       userId: parseInt(userId), // Convert userId to an integer
       activityId: parseInt(selectedActivity)
     }
-
-    axios
-      .post('http://localhost:5070/NewUser/addTask', data)
+    const headers = { Authorization: `Bearer ${tokenid}` };
+    await axios
+      .post('http://localhost:5070/NewUser/addTask', data, { headers })
       .then(response => {
         // Handle the response if needed
         console.log('Task added successfully!', response)
@@ -87,7 +87,6 @@ const AddTasks = () => {
       .catch(error => {
         console.error('Error adding task:', error)
       })
-    fetchUserDataByUserId(userId)
 
     setSelectedProject('')
     setSelectedActivity('')

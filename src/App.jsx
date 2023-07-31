@@ -1,5 +1,5 @@
 // App.js
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import {
   BrowserRouter as Router,
   Route,
@@ -22,9 +22,12 @@ import User from './components/User/User'
 import NotFoundPage from './components/NotFound/NotFound'
 
 const App = () => {
-  var role = localStorage.getItem('roleId')
-  const userRole =
-    role == 1 ? 'user' : role == 2 ? 'hr' : role == 3 ? 'admin' : ''
+  const [userRole, setUserRole] = useState('');
+
+  useEffect(() => {
+    const roleId = localStorage.getItem('roleId');
+    setUserRole(roleId === '1' ? 'user' : roleId === '2' ? 'hr' : roleId === '3' ? 'admin' : '');
+  }, []);
   const PrivateRoute = ({ role, children }) => {
     if (userRole === role) {
       return children

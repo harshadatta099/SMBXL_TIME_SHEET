@@ -9,7 +9,7 @@ const UserRecordHistory = () => {
   const userId = localStorage.getItem('userId')
   const handleStartDateChange = e => {
     setStartDate(e.target.value)
-    fetchUserRecordsByDateRange(e.target.value, endDate)
+    // fetchUserRecordsByDateRange(e.target.value, endDate)
   }
 
   const handleEndDateChange = e => {

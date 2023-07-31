@@ -2,6 +2,11 @@ import axios from 'axios'
 
 const BASE_URL = 'http://localhost:5070'
 
+const getTokenIdFromLocalStorage = () => {
+  return localStorage.getItem('tokenid');
+};
+
+
 const endpoints = {
   getUserDataByUserId: userId =>
     `${BASE_URL}/NewUser/getUserDataByUserid?userid=${userId}`,
@@ -12,27 +17,30 @@ const endpoints = {
     `${BASE_URL}/NewUser/deleteTaskByTimesheetid?Timesheetid=${timesheetId}`,
   getTotalHoursWorked: (userId, date) =>
     `${BASE_URL}/NewUser/getTotalHoursWorked?userid=${userId}&date=${date}`,
-  getAllUsers: () => `${BASE_URL}/Hr/getAllUsers`,
-  getAllTimesheets: () => `${BASE_URL}/Hr/getAllUserRecords`,
+  getAllUsers: () => `${BASE_URL}/Admin/getAllUsers`,
+  getAllTimesheets: () => `${BASE_URL}/Admin/getAllUserRecords`,
   getAllTimesheetsbyId: userId =>
-    `${BASE_URL}/Hr/getTimeSheetsByUserId?userid=${userId}`,
+    `${BASE_URL}/Admin/getTimeSheetsByUserId?userid=${userId}`,
   getAllProjects: () => `${BASE_URL}/NewUser/getAllProjects`,
   getAllActivities: () => `${BASE_URL}/NewUser/getAllActivities`
 }
 
 const fetchData = async (url, method, data = null) => {
   try {
-    const response = await axios({ url, method, data })
+    const tokenid = getTokenIdFromLocalStorage();
+    const headers = tokenid ? { Authorization: `Bearer ${tokenid}` } : {};
+    const response = await axios({ url, method, data, headers });
+
     if (response.status === 200) {
-      return response.data
+      return response.data;
     } else {
-      throw new Error(`Request failed with status: ${response.status}`)
+      throw new Error(`Request failed with status: ${response.status}`);
     }
   } catch (error) {
-    console.error('Error fetching data:', error)
-    throw error
+    console.error('Error fetching data:', error);
+    throw error;
   }
-}
+};
 
 export const fetchUserDataByUserId = async userId => {
   const url = endpoints.getUserDataByUserId(userId)
@@ -83,14 +91,14 @@ export const fetchAllActivities = async () => {
   return fetchData(url)
 }
 
-export const deleteActivity = async () => {
+export const deleteActivity = async activityName => {
   const url = `${BASE_URL}/Admin/deleteActivity`
-  return fetchData(url, 'DELETE')
+  return fetchData(url, 'DELETE', activityName);
 }
 
-export const deleteProject = async () => {
+export const deleteProject = async projectName=> {
   const url = `${BASE_URL}/Admin/deleteProject`
-  return fetchData(url, 'DELETE')
+  return fetchData(url, 'DELETE', projectName)
 }
 
 export const addProject = async project => {
@@ -104,6 +112,19 @@ export const addActivity = async activity => {
 }
 
 export const getRecordsBetweenTwoDates = async (startDate, endDate) => {
-  const url = `${BASE_URL}/Admin/getRecordsB/WTwoDates?startDate=${startDate}&endDate=${endDate}`
-  return fetchData(url, 'GET')
-}
+  const url = `${BASE_URL}/Admin/getRecordsB/WTwoDates?startDate=${startDate}&endDate=${endDate}`;
+
+  try {
+    const response = await axios.get(url);
+    if (response.status === 200) {
+      return response.data;
+    } else {
+      throw new Error(`Request failed with status: ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+

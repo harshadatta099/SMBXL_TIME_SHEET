@@ -51,12 +51,13 @@ const Login = () => {
       if (response.status === 200 && response.data != null) {
         localStorage.setItem('isLoggedIn', true)
         localStorage.setItem('user', JSON.stringify(response.data))
-
+       
         // Extract roleId and userId from the response and store them separately
-        const { roleId, userId } = response.data
+        const { roleId, userId, tokenid } = response.data
         localStorage.setItem('roleId', roleId)
         localStorage.setItem('userId', userId)
-
+        localStorage.setItem('tokenid', tokenid)
+        console.log('roleId:', roleId, 'userId:', userId, 'tokenid:', tokenid)
         switch (roleId) {
           case 1:
             navigate('/user', { replace: true })

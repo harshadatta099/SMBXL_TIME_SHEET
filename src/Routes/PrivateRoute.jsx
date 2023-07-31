@@ -1,16 +1,12 @@
-// PrivateRoute.js
-import React from 'react'
-import { Navigate } from 'react-router-dom'
+import React from 'react';
+import { Navigate } from 'react-router-dom';
 
-const PrivateRoute = ({ role, children }) => {
-  const userRole = localStorage.getItem('roleId')
-  const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'))
-
-  if (userRole === role) {
-    return children
+const PrivateRoute = ({ role, userRole, isLoggedIn, children }) => {
+  if (isLoggedIn && userRole === role) {
+    return children;
   } else {
-    return <Navigate to='/' />
+    return <Navigate to="/" />;
   }
-}
+};
 
-export default PrivateRoute
+export default PrivateRoute;
