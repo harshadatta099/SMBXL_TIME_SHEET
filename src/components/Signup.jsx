@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Button, Alert, Card } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 
 const Signup = () => {
@@ -17,6 +19,8 @@ const Signup = () => {
     password: '',
     mobileno: ''
   })
+
+  const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
 
   const navigate = useNavigate()
 
@@ -102,14 +106,27 @@ const Signup = () => {
 
           <Form.Group controlId='password'>
             <Form.Label>Password</Form.Label>
-            <Form.Control
-              type='password'
-              name='password'
-              value={formData.password}
-              onChange={handleChange}
-              required
-              placeholder='Enter your password'
-            />
+            <div style={{ position: 'relative' }}>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                name='password'
+                value={formData.password}
+                onChange={handleChange}
+                required
+                placeholder='Enter your password'
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  cursor: 'pointer',
+                }}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
             {errors.password &&
               <Alert variant='danger'>
                 {errors.password}
