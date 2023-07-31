@@ -5,7 +5,9 @@ import FetchData from './FetchData'
 const User = () => {
   return (
     <div>
-      <AddTasks />
+      <div className='mt-3'>
+        <AddTasks />
+      </div>
       <br />
       <FetchData />
     </div>

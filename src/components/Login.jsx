@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
 const Login = () => {
@@ -9,6 +11,8 @@ const Login = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  
   const navigate = useNavigate();
 
   const validateForm = () => {
@@ -118,13 +122,26 @@ const Login = () => {
           </Form.Group>
           <Form.Group controlId="password" className="mt-2">
             <Form.Label>Password:</Form.Label>
-            <Form.Control
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              isInvalid={!!passwordError}
-              placeholder="Enter your password"
-            />
+            <div style={{ position: "relative" }}>
+              <Form.Control
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                isInvalid={!!passwordError}
+                placeholder="Enter your password"
+              />
+              <FontAwesomeIcon
+                icon={showPassword ? faEyeSlash : faEye}
+                style={{
+                  position: "absolute",
+                  right: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowPassword(!showPassword)}
+              />
+            </div>
             <Form.Control.Feedback type="invalid">
               {passwordError}
             </Form.Control.Feedback>

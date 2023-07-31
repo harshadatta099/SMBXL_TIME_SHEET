@@ -44,18 +44,27 @@ const FetchData = () => {
     return totalHours
   }
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    let timeoutId;
+
+    const fetchData = () => {
       fetchUserDataByUserId(userId)
         .then(data => {
-          setTasksData(data)
+          setTasksData(data);
         })
         .catch(error => {
-          console.error('Error fetching data:', error)
-        })
-    },
-    [userId]
-  )
+          console.error('Error fetching data:', error);
+        });
+    };
+
+    // Set a timeout to fetch the data after 1000 milliseconds (1 second)
+    timeoutId = setTimeout(fetchData, 100);
+
+    // Cleanup function to clear the timeout if the component unmounts or userId changes
+    return () => clearTimeout(timeoutId);
+
+  }, [userId]);
+
 
   const formatDate = date => {
     const options = {

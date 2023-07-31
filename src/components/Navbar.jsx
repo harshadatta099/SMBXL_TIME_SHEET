@@ -10,9 +10,11 @@ const NavBar = ({ userRole }) => {
   const handleLogout = () => {
     console.log('logout');
     localStorage.setItem('isLoggedIn', false);
-    localStorage.setItem('user', null);
+    localStorage.removeItem('user');
     navigate('/');
   };
+  
+  
   if (hideHeader) {
     return null;
   }

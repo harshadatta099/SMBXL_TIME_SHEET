@@ -17,7 +17,7 @@ import TableData from './components/Admin/TableData'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import NotFoundPage from './components/NotFound/NotFound'
-import { AuthGuard } from './Auth'
+import { AuthGuard, PrivateRoute } from './Auth'
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -26,13 +26,7 @@ const App = () => {
     const roleId = localStorage.getItem('roleId');
     setUserRole(roleId === '1' ? 'user' : roleId === '2' ? 'hr' : roleId === '3' ? 'admin' : '');
   }, []);
-  const PrivateRoute = ({ role, children }) => {
-    if (userRole === role) {
-      return children
-    } else {
-      return <Navigate to='/' />
-    }
-  }
+
 
   return (
     <Router>
@@ -42,7 +36,9 @@ const App = () => {
         <Route path='/' element={
           <AuthGuard element={<Login/>}/>
         } />
-        <Route path='/signup' element={<Signup />} />
+        <Route path='/signup' element={<AuthGuard
+          element={<Signup />}
+        />} />
 
         {/* User Routes */}
         <Route
