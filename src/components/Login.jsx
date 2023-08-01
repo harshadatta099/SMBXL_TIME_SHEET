@@ -79,11 +79,12 @@ const Login = () => {
               break;
           }
         }
-        setResponseMessage("Login successful");
+        setResponseMessage();
       }
     } catch (error) {
       console.error("Login failed:", error);
-      setResponseMessage("Login failed");
+      console.log("error.response:", error.response.data);
+      setResponseMessage(error.response.data);
     }
   };
 
