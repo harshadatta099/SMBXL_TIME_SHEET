@@ -22,8 +22,11 @@ const endpoints = {
   getAllTimesheetsbyId: userId =>
     `${BASE_URL}/Admin/getTimeSheetsByUserId?userid=${userId}`,
   getAllProjects: () => `${BASE_URL}/NewUser/getAllProjects`,
-  getAllActivities: () => `${BASE_URL}/NewUser/getAllActivities`
-}
+  getAllActivities: () => `${BASE_URL}/NewUser/getAllActivities`,
+  getUserDataForWeek: (userId, inputDate) =>
+  `${BASE_URL}/NewUser/getUserDataForWeek?userid=${userId}&inputDate=${inputDate}`,
+};
+
 
 const fetchData = async (url, method, data = null) => {
   try {
@@ -128,3 +131,8 @@ export const getRecordsBetweenTwoDates = async (startDate, endDate) => {
 };
 
 
+
+export const getUserDataForWeek = async (userId, inputDate) => {
+  const url = endpoints.getUserDataForWeek(userId, inputDate);
+  return fetchData(url, 'GET');
+};

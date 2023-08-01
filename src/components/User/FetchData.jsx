@@ -1,140 +1,141 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Table, Form } from 'react-bootstrap'
-import { fetchUserDataByUserId } from '../../services/API'
+import React, { useEffect, useState } from "react";
+import { Container, Table, Form } from "react-bootstrap";
+import { getUserDataForWeek } from "../../services/API";
 
 const FetchData = () => {
-  const userId = localStorage.getItem('userId')
+  const userId = localStorage.getItem("userId");
 
   const [tasksData, setTasksData] = useState([
     {
-      projectName: '',
-      activityName: '',
-      task: '',
-      hours: '',
-      createdDate: ''
-    }
-  ])
+      projectName: "",
+      activityName: "",
+      task: "",
+      hours: "",
+      createdDate: "",
+    },
+  ]);
 
-  const today = new Date()
+  const today = new Date();
+  const year = today.getFullYear().toString().slice(-2).padStart(2, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const inputDate = `20${year}-${month}-${day}`;
 
   const generateWeekDates = () => {
-    const today = new Date()
-    const dayOfWeek = today.getDay()
-    const weekStart = new Date(today)
+    // const today = new Date();
+    const dayOfWeek = today.getDay();
+    const weekStart = new Date(today);
 
     // Skip Sunday (dayOfWeek = 0) by adding 1 to the start day
-    weekStart.setDate(today.getDate() - dayOfWeek + 1)
+    weekStart.setDate(today.getDate() - dayOfWeek + 1);
 
     const dates = [...Array(6)].map((_, i) => {
-      const date = new Date(weekStart)
-      date.setDate(weekStart.getDate() + i)
-      return date
-    })
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + i);
+      return date;
+    });
 
-    return dates
-  }
-  const calculateTotalHours = date => {
+    return dates;
+  };
+  const calculateTotalHours = (date) => {
     const totalHours = tasksData.reduce((sum, taskData) => {
-      const taskCreatedDate = new Date(taskData.createdDate)
+      const taskCreatedDate = new Date(taskData.createdDate);
       if (date.toDateString() === taskCreatedDate.toDateString()) {
-        return sum + parseFloat(taskData.hours)
+        return sum + parseFloat(taskData.hours);
       }
-      return sum
-    }, 0)
-    return totalHours
-  }
+      return sum;
+    }, 0);
+    return totalHours;
+  };
 
   useEffect(() => {
     let timeoutId;
-
+  
     const fetchData = () => {
-      fetchUserDataByUserId(userId)
-        .then(data => {
+      getUserDataForWeek(userId, inputDate)
+        .then((data) => {
           setTasksData(data);
         })
-        .catch(error => {
-          console.error('Error fetching data:', error);
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          // After fetching data, set another timeout to fetch data after 1000 milliseconds (1 second)
+          timeoutId = setTimeout(fetchData, 1000);
         });
     };
-
-    // Set a timeout to fetch the data after 1000 milliseconds (1 second)
-    timeoutId = setTimeout(fetchData, 100);
-
+  
+    // Call fetchData immediately upon component mounting
+    fetchData();
+  
     // Cleanup function to clear the timeout if the component unmounts or userId changes
     return () => clearTimeout(timeoutId);
+  }, [userId, inputDate]); // Add userId and inputDate to the dependency array
+  
 
-  }, [userId]);
-
-
-  const formatDate = date => {
+  const formatDate = (date) => {
     const options = {
-      day: '2-digit',
-      month: '2-digit',
-      year: '2-digit',
-      weekday: 'long'
-    }
-    return date.toLocaleDateString(undefined, options)
-  }
+      day: "2-digit",
+      month: "2-digit",
+      year: "2-digit",
+      weekday: "long",
+    };
+    return date.toLocaleDateString(undefined, options);
+  };
 
-  const weekDates = generateWeekDates()
+  const weekDates = generateWeekDates();
 
   return (
     <Container>
-      {tasksData.length === 0
-        ? <h1 className='text-center'>No Data Found</h1>
-        : <Table bordered striped>
+      {tasksData.length === 0 ? (
+        <h1 className="text-center">No Data Found</h1>
+      ) : (
+        <Table bordered striped className="text-center">
           <thead>
             <tr>
               <th>Project Name</th>
               <th>Activity</th>
               <th>Task</th>
-              {weekDates.map((date, index) =>
+              {weekDates.map((date, index) => (
                 <th key={index}>
                   {formatDate(date)}
-                  {date.toDateString() === today.toDateString() &&
-                  <span> (Today)</span>}
+                  {date.toDateString() === today.toDateString() && (
+                    <span> (Today)</span>
+                  )}
                 </th>
-                )}
+              ))}
             </tr>
           </thead>
           <tbody>
-            {tasksData.map((taskData, index) =>
+            {tasksData.map((taskData, index) => (
               <tr key={index}>
-                <td>
-                  {taskData.projectName}
-                </td>
-                <td>
-                  {taskData.activityName}
-                </td>
-                <td>
-                  {taskData.task}
-                </td>
+                <td>{taskData.projectName}</td>
+                <td>{taskData.activityName}</td>
+                <td>{taskData.task}</td>
                 {weekDates.map((date, index) => {
-                  const taskCreatedDate = new Date(taskData.createdDate)
+                  const taskCreatedDate = new Date(taskData.createdDate);
                   return (
                     <td key={index}>
                       {date.toDateString() ===
-                          taskCreatedDate.toDateString() &&
-                          <span>
-                            {taskData.hours}
-                          </span>}
+                        taskCreatedDate.toDateString() && (
+                        <span>{taskData.hours}</span>
+                      )}
                     </td>
-                  )
+                  );
                 })}
               </tr>
-              )}
+            ))}
             <tr>
               <td colSpan={3}>Total Hours</td>
-              {weekDates.map((date, index) =>
-                <td key={index}>
-                  {calculateTotalHours(date)}
-                </td>
-                )}
+              {weekDates.map((date, index) => (
+                <td key={index}>{calculateTotalHours(date)}</td>
+              ))}
             </tr>
           </tbody>
-        </Table>}
+        </Table>
+      )}
     </Container>
-  )
-}
+  );
+};
 
-export default FetchData
+export default FetchData;

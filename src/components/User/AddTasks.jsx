@@ -106,7 +106,7 @@ const AddTasks = () => {
 
   return (
     <Container>
-      <Table bordered>
+      <Table bordered className="text-center">
         <thead>
           <tr>
             <th>Project Name</th>

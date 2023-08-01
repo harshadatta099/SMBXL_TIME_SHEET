@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Table, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
 import { Button } from 'react-bootstrap'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from 'react-router-dom'
 const GetAllData = () => {
   const [searchQuery, setSearchQuery] = useState('')
@@ -22,6 +24,9 @@ const GetAllData = () => {
   }, [])
 
   const handleDeleteUser = userId => {
+    if (
+      window.confirm('Are you sure you want to delete this User?')
+    )
     axios
       .delete(`http://localhost:5070/Admin/deleteUserByUserId?userid=${userId}`)
       .then(response => {
@@ -66,7 +71,7 @@ const GetAllData = () => {
           onChange={handleSearchChange}
         />
       </Form>
-      <Table striped bordered hover>
+      <Table striped bordered hover className='text-center'>
         <thead>
           <tr>
             <th>User ID</th>
@@ -95,12 +100,11 @@ const GetAllData = () => {
                 {user.mobileno}
               </td>
               <td>
-                <Button
-                  variant='danger'
+              <FontAwesomeIcon
+                  icon={faTrash}
+                  style={{ color: "#FF0000", cursor: "pointer",}}
                   onClick={() => handleDeleteUser(user.userId)}
-                >
-                  Delete
-                </Button>
+                />
               </td>
             </tr>
           )}

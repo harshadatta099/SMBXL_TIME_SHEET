@@ -9,10 +9,14 @@ const NavBar = ({ userRole }) => {
   const hideHeader = location.pathname === "/signup" || location.pathname === "/";
   const handleLogout = () => {
     console.log('logout');
-    localStorage.setItem('isLoggedIn', false);
+    localStorage.setItem('isLoggedIn', 'false');
     localStorage.removeItem('user');
+    localStorage.removeItem('roleId');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
     navigate('/');
   };
+  
   
   
   if (hideHeader) {

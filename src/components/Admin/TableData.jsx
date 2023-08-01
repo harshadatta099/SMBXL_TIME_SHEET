@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Table, Button, Modal, Form } from 'react-bootstrap'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   fetchUserDataByUserId,
   editTaskByTimesheetId,
@@ -171,8 +173,8 @@ const TableData = () => {
   }
 
   return (
-    <Container className='text-align-center'>
-      <Table bordered>
+    <Container className='text-align-center mt-5'>
+      <Table bordered striped>
         <thead>
           <tr>
             <th>Project Name</th>
@@ -212,15 +214,18 @@ const TableData = () => {
                 )
               })}
               <td>
-                <Button variant='primary' onClick={() => handleEdit(taskData)}>
-                  Edit
-                </Button>{' '}
-                <Button
-                  variant='danger'
+              <FontAwesomeIcon
+                  icon={faEdit}
+                  style={{ color: "#1E90FF", cursor: "pointer", marginRight: "10px" , marginLeft: "2px" }}
+                  onClick={() => handleEdit(taskData)}
+                />
+
+                {/* Delete Icon */}
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  style={{ color: "#FF0000", cursor: "pointer",}}
                   onClick={() => handleDelete(taskData.timeSheetId)}
-                >
-                  Delete
-                </Button>
+                />
               </td>
             </tr>
           )}

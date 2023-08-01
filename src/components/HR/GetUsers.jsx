@@ -32,7 +32,7 @@ const GetUsers = () => {
   }
 
   const handleUserRowClick = userId => {
-    navigate(`/user-details?userId=${userId}`)
+    navigate(`/user-records?userId=${userId}`)
   }
 
   return (
