@@ -1,68 +1,76 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Form, Button, Alert, Card } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Form, Button, Alert, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    mobileno: ''
-  })
+    mobileno: '',
+  });
 
   const [errors, setErrors] = useState({
     username: '',
     email: '',
     password: '',
-    mobileno: ''
-  })
+    mobileno: '',
+  });
 
   const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const handleChange = e => {
-    const { name, value } = e.target
-    setFormData(prevData => ({ ...prevData, [name]: value }))
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
     // Perform form validation
     const newErrors = {
       username: formData.username ? '' : 'Username is required.',
       email: formData.email ? '' : 'Email is required.',
       password: formData.password ? '' : 'Password is required.',
-      mobileno: formData.mobileno ? '' : 'Mobile No is required.'
+      mobileno: formData.mobileno ? '' : 'Mobile No is required.',
+    };
+
+    // Password validation
+    if (formData.password) {
+      if (!/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/.test(formData.password)) {
+        newErrors.password =
+          'Password must be alphanumeric and contain at least 6 characters.';
+      }
     }
 
-    setErrors(newErrors)
+    setErrors(newErrors);
 
     // Check if there are any errors
-    if (Object.values(newErrors).every(error => error === '')) {
+    if (Object.values(newErrors).every((error) => error === '')) {
       // No errors, submit the form
-      const apiURL = 'http://localhost:5070/Auth/signup'
+      const apiURL = 'http://localhost:5070/Auth/signup';
 
       axios
         .post(apiURL, formData)
-        .then(response => {
+        .then((response) => {
           // Handle successful signup response
-          console.log('Signup successful:', response.data)
+          console.log('Signup successful:', response.data);
           if (response.data != null) {
-            alert('Signup successful')
-            navigate('/', { replace: true })
+            alert('Signup successful');
+            navigate('/', { replace: true });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           // Handle error
-          console.error('Error signing up:', error)
-        })
+          console.error('Error signing up:', error);
+        });
     }
-  }
+  };
 
   return (
     <div
@@ -82,10 +90,9 @@ const Signup = () => {
               required
               placeholder='Enter your username'
             />
-            {errors.username &&
-              <Alert variant='danger'>
-                {errors.username}
-              </Alert>}
+            {errors.username && (
+              <Alert variant='danger'>{errors.username}</Alert>
+            )}
           </Form.Group>
 
           <Form.Group controlId='email'>
@@ -98,10 +105,7 @@ const Signup = () => {
               required
               placeholder='Enter your email'
             />
-            {errors.email &&
-              <Alert variant='danger'>
-                {errors.email}
-              </Alert>}
+            {errors.email && <Alert variant='danger'>{errors.email}</Alert>}
           </Form.Group>
 
           <Form.Group controlId='password'>
@@ -127,10 +131,9 @@ const Signup = () => {
                 onClick={() => setShowPassword(!showPassword)}
               />
             </div>
-            {errors.password &&
-              <Alert variant='danger'>
-                {errors.password}
-              </Alert>}
+            {errors.password && (
+              <Alert variant='danger'>{errors.password}</Alert>
+            )}
           </Form.Group>
 
           <Form.Group controlId='mobileno'>
@@ -143,19 +146,24 @@ const Signup = () => {
               required
               placeholder='Enter your mobile number'
             />
-            {errors.mobileno &&
-              <Alert variant='danger'>
-                {errors.mobileno}
-              </Alert>}
+            {errors.mobileno && (
+              <Alert variant='danger'>{errors.mobileno}</Alert>
+            )}
           </Form.Group>
 
           <Button className='mt-3 w-100' variant='primary' type='submit'>
-            Submit
+            Signup
           </Button>
+          <div className='mt-2 text-center'>
+            Already have an account?{' '}
+            <a href='/' className='signup-link'>
+              Login
+            </a>
+          </div>
         </Form>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

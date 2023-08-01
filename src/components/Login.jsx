@@ -4,7 +4,7 @@ import { Form, Button, Alert, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-
+import "./Style.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -149,6 +149,10 @@ const Login = () => {
           <Button variant="primary" type="submit" className="mt-3 w-100">
             Login
           </Button>
+          <div className="mt-2 text-center">
+          Don't have an account?{" "}
+          <a href="/signup" className="signup-link">Sign up</a>
+        </div>
         </Form>
       </Card>
     </div>

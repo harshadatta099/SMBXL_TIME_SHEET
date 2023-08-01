@@ -23,26 +23,20 @@ export const ProtectedSignupRoute = ({ element }) => {
 
 export const AuthGuard = ({ element }) => {
   const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
-  const roleId = localStorage.getItem('roleId');
-  const userRole = roleId === '1' ? 'user' : roleId === '2' ? 'hr' : roleId === '3' ? 'admin' : '';
-
   useEffect(() => {
-    // Save the userRole in localStorage if the user is logged in
-    if (isLoggedIn) {
-      localStorage.setItem('userRole', userRole);
-    }
-  }, [isLoggedIn, userRole]);
-
+    const roleId = localStorage.getItem('roleId');
+    const userRole = roleId === 1 ? 'user' : roleId === 2 ? 'hr' : roleId === 3 ? 'admin' : '';
+    localStorage.setItem('userRole', userRole);
+  }, []);
   return isLoggedIn ? <Navigate to={`/${userRole}`} /> : element;
 };
 
 
-
+const userRole = localStorage.getItem('roleId') === '1' ? 'user' : localStorage.getItem('roleId') === '2' ? 'hr' : localStorage.getItem('roleId') === '3' ? 'admin' : ''
 export const PrivateRoute = ({ role, children }) => {
-  const userRole = localStorage.getItem('userRole');
   if (userRole === role) {
-    return children;
+    return children
   } else {
-    return <Navigate to="/" />;
+    return <Navigate to='/' />
   }
-};
+}
