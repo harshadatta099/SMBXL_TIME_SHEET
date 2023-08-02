@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Alert, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -157,9 +157,9 @@ const Signup = () => {
           </Button>
           <div className='mt-2 text-center'>
             Already have an account?{' '}
-            <a href='/' className='signup-link'>
+            <Link to='/' style={{ textDecoration: 'none' }}>
               Login
-            </a>
+            </Link>
           </div>
         </Form>
       </Card>
