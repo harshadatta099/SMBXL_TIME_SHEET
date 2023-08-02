@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "./Style.css";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,24 +16,37 @@ const Login = () => {
   
   const navigate = useNavigate();
 
+  const validateField = (value, fieldName, setError) => {
+    if (!value) {
+      setError(`${fieldName} is required`);
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
   const validateForm = () => {
-    let isValid = true;
+    const isEmailValid = validateField(email, "Email", setEmailError);
+    const isPasswordValid = validateField(password, "Password", setPasswordError);
+    return isEmailValid && isPasswordValid;
+  };
 
-    if (!email) {
-      setEmailError("Email is required");
-      isValid = false;
-    } else {
-      setEmailError("");
+  const handleLoginSuccess = (data) => {
+    localStorage.setItem("isLoggedIn", true);
+    localStorage.setItem("user", JSON.stringify(data));
+
+    const { roleId, userId, tokenid } = data;
+    localStorage.setItem("roleId", roleId);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("tokenid", tokenid);
+
+    const userRole = localStorage.getItem("roleId");
+    const destination = roleNavigation[userRole];
+    if (destination) {
+      navigate(destination, { replace: true });
     }
 
-    if (!password) {
-      setPasswordError("Password is required");
-      isValid = false;
-    } else {
-      setPasswordError("");
-    }
-
-    return isValid;
+    setResponseMessage("");
   };
 
   const handleSubmit = async (e) => {
@@ -53,39 +67,18 @@ const Login = () => {
       const response = await axios.post(apiUrl, data);
 
       if (response.status === 200 && response.data != null) {
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("user", JSON.stringify(response.data));
-
-        // Extract roleId and userId from the response and store them separately
-        const { roleId, userId, tokenid } = response.data;
-        localStorage.setItem("roleId", roleId);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("tokenid", tokenid);
-        console.log("roleId:", roleId, "userId:", userId, "tokenid:", tokenid);
-        const isUserLoggedIn = !!localStorage.getItem("isLoggedIn");
-        if (isUserLoggedIn) {
-          const userRole = localStorage.getItem("roleId");
-          switch (userRole) {
-            case "1":
-              navigate("/user", { replace: true });
-              break;
-            case "2":
-              navigate("/hr", { replace: true });
-              break;
-            case "3":
-              navigate("/admin", { replace: true });
-              break;
-            default:
-              break;
-          }
-        }
-        setResponseMessage();
+        handleLoginSuccess(response.data);
       }
     } catch (error) {
       console.error("Login failed:", error);
-      console.log("error.response:", error.response.data);
       setResponseMessage(error.response.data);
     }
+  };
+
+  const roleNavigation = {
+    "1": "/user",
+    "2": "/hr",
+    "3": "/admin"
   };
 
   return (
@@ -156,6 +149,11 @@ const Login = () => {
             Signup
           </Link>
         </div>
+        <div className="mt-2 text-center">
+            <Link to="/forgot-password" style={{ textDecoration: "none" }}>
+              Forgot Password?
+            </Link>
+          </div>
         </Form>
       </Card>
     </div>

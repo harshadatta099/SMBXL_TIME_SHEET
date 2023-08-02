@@ -11,13 +11,15 @@ import HRComponent from './components/HR/HRComponent'
 import AdminComponent from './components/Admin/AdminComponent'
 
 
-
 import Navbar from './components/Navbar'
 import GetUserDataById from './components/HR/GetUserDataById'
 import TableData from './components/Admin/TableData'
 import Login from './components/Login'
 import Signup from './components/Signup'
 import NotFoundPage from './components/NotFound/NotFound'
+import ForgotPassword from './components/ForgotPassword'
+import ResetPassword from './components/ResetPassword'
+import OTPVerification from './components/OTPVerification'
 import { AuthGuard, PrivateRoute } from './Auth'
 
 const App = () => {
@@ -41,6 +43,15 @@ const App = () => {
       <Routes>
         <Route path='/' element={
           <AuthGuard element={<Login/>}/>
+        } />
+        <Route path='/forgot-password' element={
+         <ForgotPassword/>}
+         />
+        <Route path='/reset-password' element={
+         <ResetPassword/>
+        } />
+        <Route path='/verify-otp' element={
+         <OTPVerification/>
         } />
         <Route path='/signup' element={<AuthGuard
           element={<Signup />}
