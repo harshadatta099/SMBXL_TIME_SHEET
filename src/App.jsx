@@ -14,13 +14,14 @@ import AdminComponent from './components/Admin/AdminComponent'
 import Navbar from './components/Navbar'
 import GetUserDataById from './components/HR/GetUserDataById'
 import TableData from './components/Admin/TableData'
-import Login from './components/Login'
-import Signup from './components/Signup'
+import Login from './components/Auth/Login'
+import Signup from './components/Auth/Signup'
 import NotFoundPage from './components/NotFound/NotFound'
-import ForgotPassword from './components/ForgotPassword'
-import ResetPassword from './components/ResetPassword'
-import OTPVerification from './components/OTPVerification'
-import { AuthGuard, PrivateRoute } from './Auth'
+import ForgotPassword from './components/Auth/ForgotPassword'
+import ResetPassword from './components/Auth/ResetPassword'
+import OTPVerification from './components/Auth/OTPVerification'
+import { AuthGuard, PrivateRoute } from './components/Auth/Auth'
+import EmailVerification from './components/Auth/EmailVerification'
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -52,6 +53,9 @@ const App = () => {
         } />
         <Route path='/verify-otp' element={
          <OTPVerification/>
+        } />
+        <Route path='/verify-email' element={
+         <EmailVerification/>
         } />
         <Route path='/signup' element={<AuthGuard
           element={<Signup />}

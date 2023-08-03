@@ -6,7 +6,7 @@ import { Link, useNavigate , useLocation} from 'react-router-dom';
 const NavBar = ({ userRole }) => {
   const navigate = useNavigate();
    const location = useLocation();
-  const hideHeader = location.pathname === "/signup" || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/reset-password" || location.pathname === "/verify-otp" ;
+  const hideHeader = location.pathname === "/signup" || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/reset-password" || location.pathname === "/verify-otp" || location.pathname === "/verify-email" ;
   const handleLogout = () => {
     console.log('logout');
     localStorage.setItem('isLoggedIn', 'false');

@@ -4,7 +4,7 @@ import { Form, Button, Alert, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
-import "./Style.css";
+import "../Style.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -67,7 +67,11 @@ const Login = () => {
       const response = await axios.post(apiUrl, data);
 
       if (response.status === 200 && response.data != null) {
-        handleLoginSuccess(response.data);
+        setResponseMessage("Login successful");
+        setTimeout(() => {
+          handleLoginSuccess(response.data);
+        }
+        , 2000);
       }
     } catch (error) {
       console.error("Login failed:", error);

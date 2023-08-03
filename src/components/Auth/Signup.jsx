@@ -62,7 +62,7 @@ const Signup = () => {
           console.log('Signup successful:', response.data);
           if (response.data != null) {
             alert('Signup successful');
-            navigate('/', { replace: true });
+            navigate('/verify-email',{state:{email:formData.email}} );
           }
         })
         .catch((error) => {
