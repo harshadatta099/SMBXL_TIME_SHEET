@@ -27,7 +27,7 @@ const ResetPassword = () => {
     setSuccess('');
   };
   const isPasswordValid = (password) => {
-    const alphanumericRegex = /^[a-zA-Z0-9]+$/;
+    const alphanumericRegex = !/^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
     return password.length > 6 && alphanumericRegex.test(password);
   };
 

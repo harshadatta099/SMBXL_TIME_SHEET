@@ -23,7 +23,7 @@ const ForgotPassword = () => {
         setAlert({ message: response.data, variant: 'success' });
         setTimeout(() => {
           navigate('/verify-otp');
-        }, 2000);
+        }, 1000);
 
         
       } else {
