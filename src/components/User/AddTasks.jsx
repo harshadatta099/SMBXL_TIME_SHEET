@@ -3,7 +3,8 @@ import { Container, Table, Form, Button } from 'react-bootstrap'
 import axios from 'axios'
 import {
   fetchAllProjects,
-  fetchAllActivities
+  fetchAllActivities,
+  BASE_URL
 } from '../../services/API'
 const AddTasks = () => {
   const [projectNames, setProjectNames] = useState([])
@@ -79,7 +80,7 @@ const AddTasks = () => {
     }
     const headers = { Authorization: `Bearer ${tokenid}` };
     await axios
-      .post('http://192.168.1.148:5070/NewUser/addTask', data, { headers })
+      .post(`${BASE_URL}/NewUser/addTask`, data, { headers })
       .then(response => {
         // Handle the response if needed
         console.log('Task added successfully!', response)

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Container, Row, Col, Form } from 'react-bootstrap'
 import { getRecordsBetweenTwoDates } from '../../services/API'
+import Excel from './Excel'
 
 const UserRecordHistory = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [filteredUserRecords, setFilteredUserRecords] = useState([])
+  const [filteredRecordsForExcel, setFilteredUserRecordsForExcel] = useState([])
   const userId = localStorage.getItem('userId')
   const handleStartDateChange = e => {
     setStartDate(e.target.value)
@@ -16,7 +18,7 @@ const UserRecordHistory = () => {
     setEndDate(e.target.value)
     fetchUserRecordsByDateRange(startDate, e.target.value)
   }
-
+  
   const fetchUserRecordsByDateRange = async (start, end) => {
     try {
       const records = await getRecordsBetweenTwoDates(start, end)
@@ -25,6 +27,12 @@ const UserRecordHistory = () => {
       console.error('Error fetching user records:', error)
     }
   }
+  useEffect(() => {
+    const filterRecords = filteredUserRecords.filter((record) => {
+      return record.userId == userId
+    })
+    setFilteredUserRecordsForExcel(filterRecords)
+  }, [filteredUserRecords,userId])
 
   const formatDate = dateString => {
     const date = new Date(dateString)
@@ -34,10 +42,11 @@ const UserRecordHistory = () => {
 
     return `${day}-${month}-${year}`
   }
+ 
   return (
     <Container>
       <Row className='m-3'>
-        <Col lg={3} md={6}>
+        <Col lg={3} md={3}>
           <Form.Group controlId='formStartDate'>
             <Form.Label>Select Start Date:</Form.Label>
             <Form.Control
@@ -47,7 +56,7 @@ const UserRecordHistory = () => {
             />
           </Form.Group>
         </Col>
-        <Col lg={3} md={6}>
+        <Col lg={3} md={3}>
           <Form.Group controlId='formEndDate'>
             <Form.Label>Select End Date:</Form.Label>
             <Form.Control
@@ -57,6 +66,9 @@ const UserRecordHistory = () => {
             />
           </Form.Group>
         </Col>
+        <Col lg={3} md={3} className='mt-4' style={{padding:"8px"}}>
+          <Excel filteredUserRecords={filteredRecordsForExcel} />
+          </Col>
       </Row>
 
       <Row>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Table, Form, Container } from 'react-bootstrap'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-
+import { BASE_URL } from '../../services/API'
 const GetUsers = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [usersData, setUsersData] = useState([])
@@ -11,7 +11,7 @@ const GetUsers = () => {
 
   useEffect(() => {
     axios
-      .get('http://192.168.1.148:5070/Admin/GetAllUsers')
+      .get(`${BASE_URL}/Admin/GetAllUsers`)
       .then(response => {
         setUsersData(response.data)
         setFilteredUsers(response.data)

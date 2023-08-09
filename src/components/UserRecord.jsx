@@ -1,12 +1,16 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Table, Container, Row, Col, Form } from 'react-bootstrap'
 import { getRecordsBetweenTwoDates } from '../services/API'
+import Excel from './Admin/Excel'
 
 const UserRecord = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [filteredUserRecords, setFilteredUserRecords] = useState([])
   const [userId, setUserId] = useState(0)
+  const [RateCard, setRateCard] = useState(25);
+  const [filteredRecordsForExcel, setFilteredUserRecordsForExcel] = useState([])
+
   const handleStartDateChange = e => {
     setStartDate(e.target.value)
     fetchUserRecordsByDateRange(e.target.value, endDate)
@@ -25,19 +29,27 @@ const UserRecord = () => {
       console.error('Error fetching user records:', error)
     }
   }
+  const handleRateCardChange = e => setRateCard(e.target.value)
   const handleUserIdChange = e => setUserId(e.target.value)
+
   const formatDate = dateString => {
     const date = new Date(dateString)
     const day = String(date.getDate()).padStart(2, '0')
-    const month = String(date.getMonth() + 1).padStart(2, '0') // Months are 0-based
+    const month = String(date.getMonth() + 1).padStart(2, '0') 
     const year = String(date.getFullYear()).slice(-2)
-
     return `${day}-${month}-${year}`
   }
+  useEffect(() => {
+    const filteredRecords = filteredUserRecords.filter((record) => {
+      return record.userId == userId
+    })
+    setFilteredUserRecordsForExcel(filteredRecords)
+  }, [filteredUserRecords,userId])
+    
   return (
     <Container>
       <Row className='m-3'>
-        <Col lg={3} md={6}>
+        <Col lg={2} md={4}>
           <Form.Group controlId='formStartDate'>
             <Form.Label>Select Start Date:</Form.Label>
             <Form.Control
@@ -47,7 +59,7 @@ const UserRecord = () => {
             />
           </Form.Group>
         </Col>
-        <Col lg={3} md={6}>
+        <Col lg={2} md={4}>
           <Form.Group controlId='formEndDate'>
             <Form.Label>Select End Date:</Form.Label>
             <Form.Control
@@ -57,7 +69,7 @@ const UserRecord = () => {
             />
           </Form.Group>
         </Col>
-        <Col lg={3} md={6}>
+        <Col lg={2} md={4}>
           <Form.Group controlId='formUserId'>
             <Form.Label>Enter User ID:</Form.Label>
             <Form.Control
@@ -66,6 +78,19 @@ const UserRecord = () => {
               onChange={handleUserIdChange}
             />
           </Form.Group>
+        </Col>
+        <Col lg={2} md={4}>
+          <Form.Group controlId='formUserRateCard'>
+            <Form.Label>RateCard:</Form.Label>
+            <Form.Control
+              type='number'
+              value={RateCard}
+              onChange={handleRateCardChange}
+            />
+          </Form.Group>
+        </Col>
+        <Col lg={2} md={4}  className='mt-4'  style={{padding:"8px"}} >
+         <Excel  records={filteredRecordsForExcel} rateCard={RateCard}/>
         </Col>
       </Row>
 
@@ -79,7 +104,9 @@ const UserRecord = () => {
                 <th>Activity Name</th>
                 <th>Task</th>
                 <th>Hours</th>
-                <th>Created Date</th>
+                <th> Date</th>
+                <th>RateCard</th>
+                <th>Invoice</th>
               </tr>
             </thead>
             <tbody>
@@ -104,6 +131,12 @@ const UserRecord = () => {
                       </td>
                       <td>
                         {formatDate(record.createdDate)}
+                      </td>
+                      <td>
+                        {RateCard}
+                      </td>
+                      <td>
+                        {record.hours * RateCard}
                       </td>
                     </tr>
                   )

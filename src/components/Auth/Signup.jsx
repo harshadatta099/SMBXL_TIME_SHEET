@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Logo from '../Logo';
+import { BASE_URL } from '../../services/API';
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: '',
@@ -68,7 +69,7 @@ const Signup = () => {
     // Check if there are any errors
     if (Object.values(newErrors).every((error) => error === '')) {
       // No errors, submit the form
-      const apiURL = 'http://192.168.1.148:5070/Auth/signup';
+      const apiURL = `${BASE_URL}/Auth/signup`;
 
       axios
         .post(apiURL, formData)
@@ -92,13 +93,16 @@ const Signup = () => {
   };
 
   return <>
-  <Logo/>
+    <div className='mt-4'>
+      <Logo/>
+    </div>
     <div
-      className='container-fluid d-flex justify-content-center align-items-center vh-100'
-      style={{ backgroundColor: '#f2f2f2', minHeight: '100vh' }}
+      className='container-fluid d-flex justify-content-center align-items-center '
+      style={{ minHeight: '80vh' }}
+      
     >
    
-      <Card style={{ width: '400px', padding: '20px' }}>
+      <Card className='shadow' style={{ width: '400px', padding: '20px' }}>
         <h2 className='text-center mb-4'>Signup</h2>
         {
         errors.responseMsg && (

@@ -13,6 +13,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/smbxlLogo.svg";
+import { BASE_URL } from "../../services/API";
 const ResetPassword = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -55,7 +56,7 @@ const ResetPassword = () => {
       } else {
         try {
           const response = await axios.post(
-            "http://192.168.1.148:5070/Auth/resetPassword",
+            `${BASE_URL}/Auth/resetPassword`,
             {
               email: email,
               password: password,
@@ -85,17 +86,17 @@ const ResetPassword = () => {
 
   return (
     <>
-       <div className="text-center bg-light ">
+       <div className="text-center mt-4 ">
     <img src={logo} alt="image not found" />
     </div>
       <Container
         fluid
-        className="d-flex align-items-center justify-content-center bg-light"
-        style={{ minHeight: "100vh" }}
+        className="d-flex align-items-center justify-content-center "
+        style={{ minHeight: "80vh" }}
       >
         <Row>
           <Col xs={12} sm={8} md={6} lg={4}>
-            <Card style={{ width: "400px", height: "auto" }}>
+            <Card className="shadow" style={{ width: "400px", height: "auto" }}>
               <Card.Body>
                 <Card.Title className="text-center">Reset Password</Card.Title>
                 <div>

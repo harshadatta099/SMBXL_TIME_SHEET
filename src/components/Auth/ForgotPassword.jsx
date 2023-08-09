@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL } from '../../services/API';
+import logo from '../../assets/smbxlLogo.svg';
+
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
   const [alert, setAlert] = useState({ message: '', variant: '' });
@@ -16,7 +19,7 @@ const ForgotPassword = () => {
     event.preventDefault();
   
     try {
-      const response = await axios.post(`http://192.168.1.148:5070/Auth/forgotPassword?email=${email}`);
+      const response = await axios.post(`${BASE_URL}/Auth/forgotPassword?email=${email}`);
       console.log(response.data);
       
       if (response.status === 200) {
@@ -45,11 +48,15 @@ const ForgotPassword = () => {
   };
   
 
-  return (
-    <Container fluid className="d-flex align-items-center justify-content-center bg-light" style={{ minHeight: '100vh' }}>
+  return <>
+  <div className="text-center mt-4">
+    <img src={logo} alt="image not found" />
+    </div>
+    
+    <Container fluid className="d-flex align-items-center justify-content-center " style={{ minHeight: '80vh' }}>
       <Row className="w-100">
         <Col className="d-flex justify-content-center align-items-center">
-          <Card style={{width:"400px"}}>
+          <Card className='shadow' style={{width:"400px"}}>
             <Card.Body>
               <Card.Title className='text-center'>Forgot Password</Card.Title>
               <div className='mt-3 text-center'>
@@ -76,7 +83,7 @@ const ForgotPassword = () => {
         </Col>
       </Row>
     </Container>
-  );
+    </>
 };
 
 export default ForgotPassword;

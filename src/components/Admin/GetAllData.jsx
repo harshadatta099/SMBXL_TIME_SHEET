@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import "../Style.css";
+import { BASE_URL } from "../../services/API";
 const GetAllData = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [usersData, setUsersData] = useState([]);
@@ -13,7 +14,7 @@ const GetAllData = () => {
   const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get("http://192.168.1.148:5070/Admin/GetAllUsers")
+      .get(`${BASE_URL}/Admin/GetAllUsers`)
       .then((response) => {
         setUsersData(response.data);
         setFilteredUsers(response.data);

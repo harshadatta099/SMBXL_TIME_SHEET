@@ -3,9 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { BASE_URL } from "../../services/API";
 import axios from "axios";
 import "../Style.css";
-import logo from '../../assets/smbxlLogo.svg';
 import Logo from "../Logo";
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -58,7 +58,7 @@ const Login = () => {
       return;
     }
 
-    const apiUrl = "http://192.168.1.148:5070/Auth/login";
+    const apiUrl = `${BASE_URL}/Auth/login`;
     const data = {
       email: email,
       password: password,
@@ -95,13 +95,15 @@ const Login = () => {
   };
 
   return <>
-    <Logo/>
+  <div className="mt-4 ">
+  <Logo/>
+  </div>
     <div
       className="container-fluid d-flex justify-content-center align-items-center "
-      style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}
+      style={{ minHeight: "80vh" }}
     >
       
-      <Card style={{ width: "400px", padding: "20px" }}>
+      <Card className="shadow" style={{ width: "400px", padding: "20px" }}>
         
         <Card.Title className="text-center mb-4">
           <h3>Login</h3>
