@@ -11,7 +11,7 @@ const GetUsers = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:5070/Admin/GetAllUsers')
+      .get('http://192.168.1.148:5070/Admin/GetAllUsers')
       .then(response => {
         setUsersData(response.data)
         setFilteredUsers(response.data)

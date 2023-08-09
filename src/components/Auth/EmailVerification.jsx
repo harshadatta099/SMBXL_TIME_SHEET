@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Card, Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios'; // Import Axios
+import axios from 'axios'; 
 import { useNavigate, useLocation } from 'react-router-dom'; 
+import logo from '../../assets/smbxlLogo.svg';
 const EmailVerification = () => {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
@@ -18,7 +19,7 @@ const EmailVerification = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post(`http://localhost:5070/Auth/verify?email=${email}&token=${otp}`, {
+      const response = await axios.post(`http://192.168.1.148:5070/Auth/verify?email=${email}&token=${otp}`, {
         email: email,
         token: otp,
       });
@@ -41,7 +42,10 @@ const EmailVerification = () => {
     }
   };
 
-  return (
+  return <>
+  <div className="text-center bg-light ">
+    <img src={logo} alt="image not found" />
+    </div>
     <Container fluid className="d-flex align-items-center justify-content-center bg-light" style={{ minHeight: '100vh' }}>
       <Row>
         <Col xs={12} sm={8} md={6} lg={4}>
@@ -71,7 +75,7 @@ const EmailVerification = () => {
         </Col>
       </Row>
     </Container>
-  );
+    </>
 };
 
 export default EmailVerification;

@@ -1,77 +1,77 @@
-import React, { useState, useEffect } from 'react'
-import { Table, Form, Container } from 'react-bootstrap'
-import axios from 'axios'
-import { Button } from 'react-bootstrap'
+import React, { useState, useEffect } from "react";
+import { Table, Form, Container } from "react-bootstrap";
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {  faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from 'react-router-dom'
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import "../Style.css";
 const GetAllData = () => {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [usersData, setUsersData] = useState([])
-  const [filteredUsers, setFilteredUsers] = useState([])
-  const [selectedUserId, setSelectedUserId] = useState('')
-  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState("");
+  const [usersData, setUsersData] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
     axios
-      .get('http://localhost:5070/Admin/GetAllUsers')
-      .then(response => {
-        setUsersData(response.data)
-        setFilteredUsers(response.data)
+      .get("http://192.168.1.148:5070/Admin/GetAllUsers")
+      .then((response) => {
+        setUsersData(response.data);
+        setFilteredUsers(response.data);
       })
-      .catch(error => {
-        console.error('Error fetching data:', error)
-      })
-  }, [])
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
-  const handleDeleteUser = userId => {
-    if (
-      window.confirm('Are you sure you want to delete this User?')
-    )
-    axios
-      .delete(`http://localhost:5070/Admin/deleteUserByUserId?userid=${userId}`)
-      .then(response => {
-        setUsersData(prevUsers =>
-          prevUsers.filter(user => user.userId !== userId)
+  const handleDeleteUser = (userId) => {
+    if (window.confirm("Are you sure you want to delete this User?"))
+      axios
+        .delete(
+          `http://192.168.1.148:5070/Admin/deleteUserByUserId?userid=${userId}`
         )
-        setFilteredUsers(prevFilteredUsers =>
-          prevFilteredUsers.filter(user => user.userId !== userId)
-        )
-      })
-      .catch(error => {
-        console.error('Error deleting user:', error)
-      })
-  }
+        .then((response) => {
+          setUsersData((prevUsers) =>
+            prevUsers.filter((user) => user.userId !== userId)
+          );
+          setFilteredUsers((prevFilteredUsers) =>
+            prevFilteredUsers.filter((user) => user.userId !== userId)
+          );
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+        });
+  };
 
-  const handleSearchChange = e => {
-    const { value } = e.target
-    setSearchQuery(value)
+  const handleSearchChange = (e) => {
+    const { value } = e.target;
+    setSearchQuery(value);
 
-    const filtered = usersData.filter(user =>
+    const filtered = usersData.filter((user) =>
       user.username.toLowerCase().includes(value.toLowerCase())
-    )
-    setFilteredUsers(filtered)
-  }
+    );
+    setFilteredUsers(filtered);
+  };
 
-  const handleUserRowClick = userId => {
-    navigate(`/user-details?userId=${userId}`)
-    setSelectedUserId(userId)
-    console.log('selectedUserId', selectedUserId)
-  }
+  const handleUserRowClick = (userId) => {
+    navigate(`/user-details?userId=${userId}`);
+    setSelectedUserId(userId);
+    console.log("selectedUserId", selectedUserId);
+  };
 
   return (
     <Container>
-      <Form className='my-3'>
+      <Form className="my-3">
         <Form.Label>
-          <div className='fs-5'>USER DATA:</div>
+          <div className="fs-5">USER DATA:</div>
         </Form.Label>
         <Form.Control
-          type='text'
-          placeholder='Search by username...'
+          type="text"
+          placeholder="Search by username..."
           value={searchQuery}
           onChange={handleSearchChange}
         />
       </Form>
-      <Table striped bordered hover className='text-center'>
+      <Table striped bordered hover className="text-center">
         <thead>
           <tr>
             <th>User ID</th>
@@ -82,36 +82,30 @@ const GetAllData = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredUsers.map(user =>
+          {filteredUsers.map((user) => (
             <tr
               key={user.userId}
-              onClick={() => handleUserRowClick(user.userId)}
+              
             >
+              <td onClick={() => handleUserRowClick(user.userId)}>{user.userId}</td>
+              <td onClick={() => handleUserRowClick(user.userId)}>{user.username}</td>
+              <td onClick={() => handleUserRowClick(user.userId)}>{user.email}</td>
+              <td onClick={() => handleUserRowClick(user.userId)}>{user.mobileno}</td>
               <td>
-                {user.userId}
-              </td>
-              <td>
-                {user.username}
-              </td>
-              <td>
-                {user.email}
-              </td>
-              <td>
-                {user.mobileno}
-              </td>
-              <td>
-              <FontAwesomeIcon
-                  icon={faTrash}
-                  style={{ color: "#FF0000", cursor: "pointer",}}
-                  onClick={() => handleDeleteUser(user.userId)}
-                />
+                <div>
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    style={{ color: "#FF0000", cursor: "pointer" }}
+                    onClick={() => handleDeleteUser(user.userId)}
+                  />
+                </div>
               </td>
             </tr>
-          )}
+          ))}
         </tbody>
       </Table>
     </Container>
-  )
-}
+  );
+};
 
-export default GetAllData
+export default GetAllData;

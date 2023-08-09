@@ -9,3 +9,7 @@
     color: #0056b3; /* Darker shade of the blue color on hover */
   }
   
+
+  .table tbody tr:hover{
+    cursor: pointer;
+  }

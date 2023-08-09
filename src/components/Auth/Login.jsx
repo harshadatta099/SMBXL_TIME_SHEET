@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Form, Button, Alert, Card } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import "../Style.css";
-
+import logo from '../../assets/smbxlLogo.svg';
+import Logo from "../Logo";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,6 +45,7 @@ const Login = () => {
     const destination = roleNavigation[userRole];
     if (destination) {
       navigate(destination, { replace: true });
+      window.location.reload();
     }
 
     setResponseMessage("");
@@ -56,7 +58,7 @@ const Login = () => {
       return;
     }
 
-    const apiUrl = "http://localhost:5070/Auth/login";
+    const apiUrl = "http://192.168.1.148:5070/Auth/login";
     const data = {
       email: email,
       password: password,
@@ -79,18 +81,28 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "auto"; 
+    };
+  }, []);
+
   const roleNavigation = {
     "1": "/user",
     "2": "/hr",
     "3": "/admin"
   };
 
-  return (
+  return <>
+    <Logo/>
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
+      className="container-fluid d-flex justify-content-center align-items-center "
       style={{ backgroundColor: "#f2f2f2", minHeight: "100vh" }}
     >
+      
       <Card style={{ width: "400px", padding: "20px" }}>
+        
         <Card.Title className="text-center mb-4">
           <h3>Login</h3>
         </Card.Title>
@@ -161,7 +173,8 @@ const Login = () => {
         </Form>
       </Card>
     </div>
-  );
+    </>
+
 };
 
 export default Login;

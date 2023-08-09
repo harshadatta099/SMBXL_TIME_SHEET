@@ -16,7 +16,7 @@ const ForgotPassword = () => {
     event.preventDefault();
   
     try {
-      const response = await axios.post(`http://localhost:5070/Auth/forgotPassword?email=${email}`);
+      const response = await axios.post(`http://192.168.1.148:5070/Auth/forgotPassword?email=${email}`);
       console.log(response.data);
       
       if (response.status === 200) {
@@ -68,7 +68,7 @@ const ForgotPassword = () => {
                   />
                 </Form.Group>
                 <Button className='mt-3 w-100' variant="primary" type="submit" onClick={handleSubmit}>
-                  Send Reset Link
+                  Send 
                 </Button>
               </Form>
             </Card.Body>

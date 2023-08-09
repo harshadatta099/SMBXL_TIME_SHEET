@@ -79,7 +79,7 @@ const AddTasks = () => {
     }
     const headers = { Authorization: `Bearer ${tokenid}` };
     await axios
-      .post('http://localhost:5070/NewUser/addTask', data, { headers })
+      .post('http://192.168.1.148:5070/NewUser/addTask', data, { headers })
       .then(response => {
         // Handle the response if needed
         console.log('Task added successfully!', response)
