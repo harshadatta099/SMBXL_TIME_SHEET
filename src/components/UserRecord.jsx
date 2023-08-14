@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Table, Container, Row, Col, Form } from 'react-bootstrap'
 import { getRecordsBetweenTwoDates } from '../services/API'
 import Excel from './Admin/Excel'
-
+import UserExcel from './User/UserExcel'
 const UserRecord = () => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
@@ -20,7 +20,7 @@ const UserRecord = () => {
     setEndDate(e.target.value)
     fetchUserRecordsByDateRange(startDate, e.target.value)
   }
-
+  const roleId = localStorage.getItem('roleId');
   const fetchUserRecordsByDateRange = async (start, end) => {
     try {
       const records = await getRecordsBetweenTwoDates(start, end)
@@ -86,17 +86,25 @@ const UserRecord = () => {
               type='number'
               value={RateCard}
               onChange={handleRateCardChange}
+              disabled={roleId === '2'}
             />
           </Form.Group>
         </Col>
         <Col lg={2} md={4}  className='mt-4'  style={{padding:"8px"}} >
-         <Excel  records={filteredRecordsForExcel} rateCard={RateCard}/>
+         {(roleId === '2') ? (
+            <UserExcel filteredUserRecords={filteredRecordsForExcel} />
+          ):(<Excel  records={filteredRecordsForExcel} rateCard={RateCard}/>)}
+         
         </Col>
       </Row>
 
       <Row>
         <Col>
-          <Table striped bordered hover>
+          {
+            (filteredUserRecords.length == 0) ?(
+              <h3 className='text-center'>No records found</h3>
+            ):(
+              <Table striped bordered hover>
             <thead>
               <tr>
                 <th>User ID</th>
@@ -105,8 +113,13 @@ const UserRecord = () => {
                 <th>Task</th>
                 <th>Hours</th>
                 <th> Date</th>
-                <th>RateCard</th>
-                <th>Invoice</th>
+                {
+                  roleId !== "2" && (<>
+                    <th>RateCard</th>
+                    <th>Invoice</th>
+                  </>
+                  )
+                }
               </tr>
             </thead>
             <tbody>
@@ -132,18 +145,25 @@ const UserRecord = () => {
                       <td>
                         {formatDate(record.createdDate)}
                       </td>
-                      <td>
-                        {RateCard}
-                      </td>
-                      <td>
-                        {record.hours * RateCard}
-                      </td>
+                      {roleId !== "2" && (
+                      <>
+                        <td>
+                          {RateCard}
+                        </td>
+                        <td>
+                          {record.hours * RateCard}
+                        </td>
+                      </>
+                    )}
                     </tr>
                   )
                 }
               })}
             </tbody>
           </Table>
+            )
+          }
+          
         </Col>
       </Row>
     </Container>

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { InputGroup, Form, Button, Container, Table } from 'react-bootstrap'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   addActivity,
   deleteActivity,
@@ -52,7 +54,7 @@ const Activities = () => {
   return (
     <Container>
       <h1 className='text-center'>Activities</h1>
-      <div>
+      <div style={{maxWidth:"830px", margin:"0 auto"}}>
         <InputGroup className='m-3'>
           <Form.Control
             id='activityNameInput'
@@ -69,7 +71,7 @@ const Activities = () => {
           </Button>
         </InputGroup>
       </div>
-      <div>
+      <div style={{maxWidth:"800px", margin:"0 auto"}}>
         <Table striped bordered hover>
           <thead>
             <tr>
@@ -88,12 +90,11 @@ const Activities = () => {
                   {activity.activityName}
                 </td>
                 <td>
-                  <Button
-                    variant='danger'
-                    onClick={() => handleDeleteActivity(activity.activityName)}
-                  >
-                    Delete
-                  </Button>
+                <FontAwesomeIcon
+                  icon={faTrash}
+                  style={{ color: "#FF0000", cursor: "pointer",}}
+                  onClick={() => handleDeleteActivity(activity.activityName)}
+                />
                 </td>
               </tr>
             )}

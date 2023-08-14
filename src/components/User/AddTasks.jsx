@@ -82,7 +82,7 @@ const AddTasks = () => {
     await axios
       .post(`${BASE_URL}/NewUser/addTask`, data, { headers })
       .then(response => {
-        // Handle the response if needed
+       
         console.log('Task added successfully!', response)
       })
       .catch(error => {

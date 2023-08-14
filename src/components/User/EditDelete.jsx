@@ -8,6 +8,7 @@ import {
   deleteTimesheetByTimesheetId,
   fetchAllActivities,
   fetchAllProjects,
+  getUserDataForWeek
 } from "../../services/API";
 
 const EditDeleteData = () => {
@@ -36,6 +37,10 @@ const EditDeleteData = () => {
     activityId: 0,
   });
   const today = new Date();
+  const year = today.getFullYear().toString().slice(-2).padStart(2, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const inputDate = `20${year}-${month}-${day}`;
 
   const generateWeekDates = () => {
     const today = new Date();
@@ -72,7 +77,7 @@ const EditDeleteData = () => {
     fetchAllActivities().then((activities) => {
       setActivityNames(activities);
     });
-    fetchUserDataByUserId(userId)
+    getUserDataForWeek(userId, inputDate)
       .then((data) => {
         setTasksData(data);
       })
@@ -165,7 +170,9 @@ const EditDeleteData = () => {
 
   return (
     <Container className="mt-5">
-      {
+      { tasksData.length===0?(
+        <h3 className="text-center">No Data Found</h3>
+      ):(
         <Table bordered striped  align="center" className="text-center">
           <thead >
             <tr>
@@ -224,7 +231,7 @@ const EditDeleteData = () => {
               <td />
             </tr>
           </tbody>
-        </Table>
+        </Table>)
       }
 
       {/* Edit Modal */}

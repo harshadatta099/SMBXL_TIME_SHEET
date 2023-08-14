@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Table, Container, Row, Col, Form } from 'react-bootstrap'
 import { getRecordsBetweenTwoDates } from '../../services/API'
-import Excel from './Excel'
+import UserExcel from './UserExcel'
 
 const UserRecordHistory = () => {
   const [startDate, setStartDate] = useState('')
@@ -46,7 +46,7 @@ const UserRecordHistory = () => {
   return (
     <Container>
       <Row className='m-3'>
-        <Col lg={3} md={3}>
+        <Col lg={2} md={3}>
           <Form.Group controlId='formStartDate'>
             <Form.Label>Select Start Date:</Form.Label>
             <Form.Control
@@ -56,7 +56,7 @@ const UserRecordHistory = () => {
             />
           </Form.Group>
         </Col>
-        <Col lg={3} md={3}>
+        <Col lg={2} md={3}>
           <Form.Group controlId='formEndDate'>
             <Form.Label>Select End Date:</Form.Label>
             <Form.Control
@@ -67,13 +67,16 @@ const UserRecordHistory = () => {
           </Form.Group>
         </Col>
         <Col lg={3} md={3} className='mt-4' style={{padding:"8px"}}>
-          <Excel filteredUserRecords={filteredRecordsForExcel} />
+          <UserExcel filteredUserRecords={filteredRecordsForExcel} />
           </Col>
       </Row>
 
       <Row>
         <Col>
-          <Table striped bordered hover>
+          {
+            (filteredUserRecords.length === 0) ? (
+              <h1 className='text-center'>No Data Found</h1>):(
+                <Table striped bordered hover>
             <thead>
               <tr>
                 <th>User ID</th>
@@ -113,6 +116,8 @@ const UserRecordHistory = () => {
               })}
             </tbody>
           </Table>
+              )
+          }
         </Col>
       </Row>
     </Container>

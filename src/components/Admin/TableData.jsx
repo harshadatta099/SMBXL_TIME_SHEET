@@ -3,7 +3,7 @@ import { Container, Table, Button, Modal, Form } from 'react-bootstrap'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
-  fetchUserDataByUserId,
+  getUserDataForWeek,
   editTaskByTimesheetId,
   deleteTimesheetByTimesheetId,
   fetchAllActivities,
@@ -40,7 +40,11 @@ const TableData = () => {
     activityId: 0
   })
 
-  const today = new Date()
+  const today = new Date();
+  const year = today.getFullYear().toString().slice(-2).padStart(2, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const inputDate = `20${year}-${month}-${day}`;
 
   const generateWeekDates = () => {
     const today = new Date()
@@ -78,7 +82,7 @@ const TableData = () => {
       fetchAllActivities().then(activities => {
         setActivityNames(activities)
       })
-      fetchUserDataByUserId(userId)
+      getUserDataForWeek(userId,inputDate)
         .then(data => {
           setTasksData(data)
         })
@@ -174,7 +178,11 @@ const TableData = () => {
 
   return (
     <Container className='text-align-center mt-5'>
-      <Table bordered striped>
+      {
+        tasksData.length === 0 ?(
+          <h3 className='text-center'>No Data Found</h3>
+        ):(
+          <Table bordered striped>
         <thead>
           <tr>
             <th>Project Name</th>
@@ -240,6 +248,9 @@ const TableData = () => {
           </tr>
         </tbody>
       </Table>
+        )
+      }
+      
 
       {/* Edit Modal */}
       <Modal show={showEditModal} onHide={() => setShowEditModal(false)}>

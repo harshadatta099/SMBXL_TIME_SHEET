@@ -28,7 +28,7 @@ const GetAllData = () => {
     if (window.confirm("Are you sure you want to delete this User?"))
       axios
         .delete(
-          `http://192.168.1.148:5070/Admin/deleteUserByUserId?userid=${userId}`
+          `${BASE_URL}/Admin/deleteUserByUserId?userid=${userId}`
         )
         .then((response) => {
           setUsersData((prevUsers) =>

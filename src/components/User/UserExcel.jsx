@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap';
 import { saveAs } from 'file-saver';
 import ExcelJS from 'exceljs';
 
-const  Excel = ({filteredUserRecords})=> {
+const  UserExcel = ({filteredUserRecords})=> {
     console.log(filteredUserRecords);
   const [loading, setLoading] = useState(false);
 
@@ -112,4 +112,4 @@ const  Excel = ({filteredUserRecords})=> {
   );
 }
 
-export default Excel;
+export default UserExcel;

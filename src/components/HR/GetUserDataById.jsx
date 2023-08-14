@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Container, Table, Form } from 'react-bootstrap'
-import { fetchUserDataByUserId } from '../../services/API'
+import {getUserDataForWeek } from '../../services/API'
 import { useLocation } from 'react-router-dom'
 const GetUserDataById = () => {
   const [tasksData, setTasksData] = useState([
@@ -17,7 +17,11 @@ const GetUserDataById = () => {
   const searchParams = new URLSearchParams(location.search)
   const userId = searchParams.get('userId')
 
-  const today = new Date()
+  const today = new Date();
+  const year = today.getFullYear().toString().slice(-2).padStart(2, "0");
+  const month = (today.getMonth() + 1).toString().padStart(2, "0");
+  const day = today.getDate().toString().padStart(2, "0");
+  const inputDate = `20${year}-${month}-${day}`;
 
   const generateWeekDates = () => {
     const today = new Date()
@@ -48,7 +52,8 @@ const GetUserDataById = () => {
 
   useEffect(
     () => {
-      fetchUserDataByUserId(userId)
+      getUserDataForWeek(userId,inputDate
+        )
         .then(data => {
           setTasksData(data)
         })
@@ -72,9 +77,9 @@ const GetUserDataById = () => {
   const weekDates = generateWeekDates()
 
   return (
-    <Container>
+    <Container className='mt-5'>
       {tasksData.length === 0
-        ? <h1 className='text-center'>No Data Found</h1>
+        ? <h1 className='text-center mt-4'>No Data Found</h1>
         : <Table bordered striped>
           <thead>
             <tr>

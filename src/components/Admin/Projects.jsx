@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { InputGroup, Form, Button, Container, Table } from 'react-bootstrap'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {  faTrash } from "@fortawesome/free-solid-svg-icons";
 import {
   fetchAllProjects,
   addProject,
@@ -52,7 +54,7 @@ const Project = () => {
   return (
     <Container>
       <h1 className='text-center'>Projects</h1>
-      <div>
+      <div style={{maxWidth:"830px", margin:"0 auto"}}>
         <InputGroup className='m-3'>
           <Form.Control
             id='projectNameInput'
@@ -69,8 +71,8 @@ const Project = () => {
           </Button>
         </InputGroup>
       </div>
-      <div>
-        <Table striped bordered hover>
+      <div style={{maxWidth:"800px",margin:"0 auto"}}>
+        <Table striped bordered hover className='text-center'>
           <thead>
             <tr>
               <th>#</th>
@@ -87,13 +89,13 @@ const Project = () => {
                 <td>
                   {project.projectName}
                 </td>
-                <td>
-                  <Button
-                    variant='danger'
-                    onClick={() => handleDeleteProject(project.projectName)}
-                  >
-                    Delete
-                  </Button>
+                <td className='text-center'>
+                  
+                  <FontAwesomeIcon
+                  icon={faTrash}
+                  style={{ color: "#FF0000", cursor: "pointer",}}
+                  onClick={() => handleDeleteProject(project.projectName)}
+                />
                 </td>
               </tr>
             )}
