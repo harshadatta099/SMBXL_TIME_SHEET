@@ -137,7 +137,7 @@ const TableData = () => {
     ) {
       deleteTimesheetByTimesheetId(timesheetId)
         .then(() => {
-          // Remove the deleted entry from the tasksData state
+  
           setTasksData(prevData =>
             prevData.filter(taskData => taskData.timeSheetId !== timesheetId)
           )
@@ -156,10 +156,10 @@ const TableData = () => {
   }
   const handleSaveEdit = () => {
     if (editedTask.timeSheetId) {
-      // Make an API call to edit the timesheet entry
+      
       editTaskByTimesheetId(editedTask.timeSheetId, editedTask)
         .then(editedTimesheet => {
-          // Update the tasksData state with the edited timesheet entry
+          
           setTasksData(prevData => {
             return prevData.map(
               taskData =>

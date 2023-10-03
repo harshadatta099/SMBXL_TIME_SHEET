@@ -33,7 +33,7 @@ const Project = () => {
     if (projectName) {
       addProject({ projectName })
         .then(() => {
-          fetchProjects() // Refresh the projects list after adding a new project
+          fetchProjects() 
         })
         .catch(error => {
           console.error('Error adding project:', error)
@@ -44,7 +44,7 @@ const Project = () => {
   const handleDeleteProject = projectName => {
     deleteProject({ projectName })
       .then(() => {
-        fetchProjects() // Refresh the projects list after deleting a project
+        fetchProjects() 
       })
       .catch(error => {
         console.error('Error deleting project:', error)

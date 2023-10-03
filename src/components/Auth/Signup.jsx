@@ -22,7 +22,7 @@ const Signup = () => {
     mobileno: '',
   });
 
-  const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
+  const [showPassword, setShowPassword] = useState(false); 
 
   const navigate = useNavigate();
 
@@ -74,7 +74,7 @@ const Signup = () => {
       axios
         .post(apiURL, formData)
         .then((response) => {
-          // Handle successful signup response
+          
           console.log('Signup successful:', response.data);
           if (response.data != null) {
             // alert('Signup successful');
@@ -85,7 +85,7 @@ const Signup = () => {
           }
         })
         .catch((error) => {
-          // Handle error
+        
           console.error('Error signing up:', error);
           setErrors((prevErrors) => ({ ...prevErrors, responseMsg: error.response.data }));
         });

@@ -46,13 +46,11 @@ const GetAllData = () => {
   const handleSearchChange = (e) => {
     const { value } = e.target;
     setSearchQuery(value);
-
     const filtered = usersData.filter((user) =>
       user.username.toLowerCase().includes(value.toLowerCase())
     );
     setFilteredUsers(filtered);
   };
-
   const handleUserRowClick = (userId) => {
     navigate(`/user-details?userId=${userId}`);
     setSelectedUserId(userId);
