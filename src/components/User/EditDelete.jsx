@@ -13,6 +13,7 @@ import {
 
 const EditDeleteData = () => {
   const userId = localStorage.getItem("userId");
+  
   const [tasksData, setTasksData] = useState([
     {
       timeSheetId: null,
@@ -25,7 +26,9 @@ const EditDeleteData = () => {
   ]);
   const [projectNames, setProjectNames] = useState([]);
   const [activityNames, setActivityNames] = useState([]);
-
+  const [selectedProject, setSelectedProject] = useState("");
+  const [relatedActivities, setRelatedActivities] = useState([]);
+  
   const [showEditModal, setShowEditModal] = useState(false);
   const [editedTask, setEditedTask] = useState({
     timeSheetId: null,
@@ -74,9 +77,11 @@ const EditDeleteData = () => {
     fetchAllProjects().then((projects) => {
       setProjectNames(projects);
     });
+  
     fetchAllActivities().then((activities) => {
       setActivityNames(activities);
     });
+  
     getUserDataForWeek(userId, inputDate)
       .then((data) => {
         setTasksData(data);
@@ -85,6 +90,18 @@ const EditDeleteData = () => {
         console.error("Error fetching data:", error);
       });
   }, [userId]);
+
+  useEffect(() => {
+    if (selectedProject) {
+      const filteredActivities = activityNames.filter(
+        (activity) => activity.projectId === parseInt(selectedProject)
+      );
+      setRelatedActivities(filteredActivities);
+    } else {
+      setRelatedActivities([]);
+    }
+  }, [selectedProject, activityNames]);
+  
 
   // const mapProjectName = (projectId) => {
   //   const project = projectNames.find(
@@ -167,6 +184,16 @@ const EditDeleteData = () => {
         });
     }
   };
+  const handleProjectChange = (selectedProject) => {
+    setSelectedProject(selectedProject);
+  
+    // Filter activities based on the selected project
+    const filteredActivities = activityNames.filter(
+      (activity) => activity.projectId === parseInt(selectedProject)
+    );
+    setRelatedActivities(filteredActivities);
+  };
+  
 
   return (
     <Container className="mt-5">
@@ -265,7 +292,10 @@ const EditDeleteData = () => {
                 as="select"
                 name="projectId"
                 value={editedTask.projectId}
-                onChange={handleInputChange}
+                onChange={(e) => {
+                  handleProjectChange(e.target.value)
+                  handleInputChange(e);
+                }}
               >
                 <option value="">Select a Project</option>
                 {projectNames.map((project) => (
@@ -284,7 +314,7 @@ const EditDeleteData = () => {
                 onChange={handleInputChange}
               >
                 <option value="">Select an Activity</option>
-                {activityNames.map((activity) => (
+                {relatedActivities.map((activity) => (
                   <option key={activity.activityId} value={activity.activityId}>
                     {activity.activityName}
                   </option>

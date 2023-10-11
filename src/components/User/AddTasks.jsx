@@ -12,6 +12,8 @@ const AddTasks = () => {
   const [selectedProject, setSelectedProject] = useState('')
   const [selectedActivity, setSelectedActivity] = useState('')
   const [task, setTask] = useState('')
+  // const [selectedId, setSelectedId] = useState(0);
+  const [relatedActivities, setRelatedActivities] = useState([]);
 
   const [dayDates, setDayDates] = useState(Array(6).fill('')) // Reduced to 6 days, excluding Sunday
 
@@ -32,9 +34,26 @@ const AddTasks = () => {
     return dates
   }
   useEffect(() => {
-    fetchAllProjects().then(data => setProjectNames(data))
-    fetchAllActivities().then(data => setActivityNames(data))
-  }, [])
+    fetchAllProjects().then(data => {setProjectNames(data)
+    console.log(data);
+    })
+    fetchAllActivities().then(data => {
+      setActivityNames(data)
+      console.log(data);
+    })
+  }, []);
+
+
+  useEffect(() => {
+    if (selectedProject) {
+      const filteredActivities = activityNames.filter(
+        (activity) => activity.projectId === parseInt(selectedProject)
+      );
+      setRelatedActivities(filteredActivities);
+    } else {
+      setRelatedActivities([]);
+    }
+  }, [selectedProject, activityNames]);
   const tokenid = localStorage.getItem('tokenid');
 
   const formatDate = date => {
@@ -75,7 +94,7 @@ const AddTasks = () => {
       hours: dayDates[todayIndex],
       createdDate: new Date().toISOString().slice(0, 10), // Convert to YYYY-MM-DD format
       projectId: parseInt(selectedProject),
-      userId: parseInt(userId), // Convert userId to an integer
+      userId: parseInt(userId), 
       activityId: parseInt(selectedActivity)
     }
     const headers = { Authorization: `Bearer ${tokenid}` };
@@ -129,7 +148,10 @@ const AddTasks = () => {
                 as='select'
                 value={selectedProject}
                 style={{ width: '150px' }}
-                onChange={e => setSelectedProject(e.target.value)}
+                onChange={e => {setSelectedProject(e.target.value)
+                  let id = parseInt(e.target.value);
+                  
+                }}
                 required
               >
                 <option value=''>Select Project</option>
@@ -146,10 +168,11 @@ const AddTasks = () => {
                 style={{ width: '150px' }}
                 value={selectedActivity}
                 onChange={e => setSelectedActivity(e.target.value)}
+
                 required
               >
                 <option value=''>Select Activity</option>
-                {activityNames.map(activity =>
+                {relatedActivities.map(activity =>
                   <option key={activity.activityId} value={activity.activityId}>
                     {activity.activityName}
                   </option>

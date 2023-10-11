@@ -42,14 +42,19 @@ const Project = () => {
   }
 
   const handleDeleteProject = projectName => {
-    deleteProject({ projectName })
-      .then(() => {
-        fetchProjects() 
-      })
-      .catch(error => {
-        console.error('Error deleting project:', error)
-      })
-  }
+    const confirmDelete = window.confirm("Are you sure you want to delete this Project?");
+  
+    if (confirmDelete) {
+      deleteProject({ projectName })
+        .then(() => {
+          fetchProjects();
+        })
+        .catch(error => {
+          console.error('Error deleting project:', error);
+        });
+    }
+  };
+  
 
   return (
     <Container>

@@ -65,12 +65,11 @@ const FetchData = () => {
         });
     };
   
-    // Call fetchData immediately upon component mounting
+   
     fetchData();
   
-    // Cleanup function to clear the timeout if the component unmounts or userId changes
     return () => clearTimeout(timeoutId);
-  }, [userId, inputDate]); // Add userId and inputDate to the dependency array
+  }, [userId, inputDate]); 
   
 
   const formatDate = (date) => {

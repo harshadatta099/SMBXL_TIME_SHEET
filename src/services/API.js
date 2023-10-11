@@ -1,13 +1,16 @@
 import axios from 'axios'
 
-const getNetworkIP = () => {
-  if (window.location.hostname === '192.168.1.2') {
-    return 'http://192.168.1.2:5070';
-  } else if (window.location.hostname === '192.168.200.2') {
-    return 'http://192.168.200.2:5070';
-  } 
-};
-export const BASE_URL = getNetworkIP();
+// const getNetworkIP = () => {
+//   if (window.location.hostname === '192.168.1.2') {
+//     return 'http://192.168.1.2:5070';
+//   } else if (window.location.hostname === '192.168.200.2') {
+//     return 'http://192.168.200.2:5070';
+//   } else{
+//     return 'localhost:5070';
+//   }
+// };
+// export const BASE_URL = getNetworkIP();
+export const BASE_URL = 'http://localhost:5070'
 
 const getTokenIdFromLocalStorage = () => {
   return localStorage.getItem('tokenid');

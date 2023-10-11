@@ -18,7 +18,7 @@ const UserRecordHistory = () => {
     setEndDate(e.target.value)
     fetchUserRecordsByDateRange(startDate, e.target.value)
   }
-  
+
   const fetchUserRecordsByDateRange = async (start, end) => {
     try {
       const records = await getRecordsBetweenTwoDates(start, end)
@@ -32,7 +32,7 @@ const UserRecordHistory = () => {
       return record.userId == userId
     })
     setFilteredUserRecordsForExcel(filterRecords)
-  }, [filteredUserRecords,userId])
+  }, [filteredUserRecords, userId])
 
   const formatDate = dateString => {
     const date = new Date(dateString)
@@ -42,7 +42,7 @@ const UserRecordHistory = () => {
 
     return `${day}-${month}-${year}`
   }
- 
+
   return (
     <Container>
       <Row className='m-3'>
@@ -66,57 +66,57 @@ const UserRecordHistory = () => {
             />
           </Form.Group>
         </Col>
-        <Col lg={3} md={3} className='mt-4' style={{padding:"8px"}}>
+        <Col lg={3} md={3} className='mt-4' style={{ padding: "8px" }}>
           <UserExcel filteredUserRecords={filteredRecordsForExcel} />
-          </Col>
+        </Col>
       </Row>
 
       <Row>
         <Col>
           {
             (filteredUserRecords.length === 0) ? (
-              <h1 className='text-center'>No Data Found</h1>):(
-                <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>User ID</th>
-                <th>Project Name</th>
-                <th>Activity Name</th>
-                <th>Task</th>
-                <th>Hours</th>
-                <th>Created Date</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUserRecords.map((record, index) => {
-                if (userId == record.userId) {
-                  return (
-                    <tr key={index}>
-                      <td>
-                        {record.userId}
-                      </td>
-                      <td>
-                        {record.projectName}
-                      </td>
-                      <td>
-                        {record.activityName}
-                      </td>
-                      <td>
-                        {record.task}
-                      </td>
-                      <td>
-                        {record.hours}
-                      </td>
-                      <td>
-                        {formatDate(record.createdDate)}
-                      </td>
-                    </tr>
-                  )
-                }
-              })}
-            </tbody>
-          </Table>
-              )
+              <h1 className='text-center'>No Data Found</h1>) : (
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>User ID</th>
+                    <th>Project Name</th>
+                    <th>Activity Name</th>
+                    <th>Task</th>
+                    <th>Hours</th>
+                    <th>Created Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredUserRecords.map((record, index) => {
+                    if (userId == record.userId) {
+                      return (
+                        <tr key={index}>
+                          <td>
+                            {record.userId}
+                          </td>
+                          <td>
+                            {record.projectName}
+                          </td>
+                          <td>
+                            {record.activityName}
+                          </td>
+                          <td>
+                            {record.task}
+                          </td>
+                          <td>
+                            {record.hours}
+                          </td>
+                          <td>
+                            {formatDate(record.createdDate)}
+                          </td>
+                        </tr>
+                      )
+                    }
+                  })}
+                </tbody>
+              </Table>
+            )
           }
         </Col>
       </Row>
