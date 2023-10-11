@@ -60,7 +60,7 @@ const FetchData = () => {
           console.error("Error fetching data:", error);
         })
         .finally(() => {
-          // After fetching data, set another timeout to fetch data after 1000 milliseconds (1 second)
+          
           timeoutId = setTimeout(fetchData, 1000);
         });
     };
