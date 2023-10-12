@@ -1,4 +1,3 @@
-// App.js
 import React,{useState,useEffect} from 'react'
 import {
   BrowserRouter as Router,
@@ -15,6 +14,7 @@ import Navbar from './components/Navbar'
 import GetUserDataById from './components/HR/GetUserDataById'
 import TableData from './components/Admin/TableData'
 import Login from './components/Auth/Login'
+import AuthLogin from './components/Auth/AuthLogin'
 import Signup from './components/Auth/Signup'
 import NotFoundPage from './components/NotFound/NotFound'
 import ForgotPassword from './components/Auth/ForgotPassword'
@@ -22,6 +22,7 @@ import ResetPassword from './components/Auth/ResetPassword'
 import OTPVerification from './components/Auth/OTPVerification'
 import { AuthGuard, PrivateRoute } from './components/Auth/Auth'
 import EmailVerification from './components/Auth/EmailVerification'
+import Home from './components/Home'
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -43,7 +44,7 @@ const App = () => {
 
       <Routes>
         <Route path='/' element={
-          <AuthGuard element={<Login/>}/>
+          <AuthGuard element={<AuthLogin/>}/>
         } />
         <Route path='/forgot-password' element={
          <ForgotPassword/>}
@@ -92,6 +93,7 @@ const App = () => {
         />
         <Route path='/user-details' element={<TableData />} />
         <Route path='/user-records' element={<GetUserDataById />} />
+        <Route path='/home' element={<Home/>} />
         {/* Default route for unknown URLs */}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>

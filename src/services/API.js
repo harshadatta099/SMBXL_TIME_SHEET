@@ -9,8 +9,8 @@ const getNetworkIP = () => {
     return 'localhost:5070';
   }
 };
-export const BASE_URL = getNetworkIP();
-// export const BASE_URL = 'http://localhost:5070'
+// export const BASE_URL = getNetworkIP();
+export const BASE_URL = 'http://localhost:5070'
 
 const getTokenIdFromLocalStorage = () => {
   return localStorage.getItem('tokenid');

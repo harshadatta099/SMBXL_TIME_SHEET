@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Navbar, Container, Button, Nav } from 'react-bootstrap';
 import logo from '../assets/smbxlLogo.svg';
 import { Link, useNavigate , useLocation} from 'react-router-dom';
+import {msalInstance} from './../config.js'
 
 const NavBar = ({ userRole }) => {
   const navigate = useNavigate();
@@ -16,8 +17,22 @@ const NavBar = ({ userRole }) => {
     localStorage.removeItem('userRole');
     navigate('/');
   };
+  useEffect(() => {
+    async function initializeMsal() {
+      await msalInstance.initialize();
+    }
+    initializeMsal();
+  }, []);
   
-  
+  const logout = async () => {
+    try {
+      await msalInstance.logoutPopup();
+      
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Sign-out error:', error);
+    }
+  };
   
   if (hideHeader) {
     return null;
@@ -55,7 +70,7 @@ const NavBar = ({ userRole }) => {
         </Nav>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Button variant="outline-primary" onClick={handleLogout}>
+          <Button variant="outline-primary" onClick={logout}>
             Logout
           </Button>
         </Navbar.Collapse>
