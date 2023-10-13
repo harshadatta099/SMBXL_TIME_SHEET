@@ -27,8 +27,9 @@ const NavBar = ({ userRole }) => {
   const logout = async () => {
     try {
       await msalInstance.logoutPopup();
-      
-      window.location.href = '/';
+      navigate('/');
+     
+      localStorage.removeItem("userName");
     } catch (error) {
       console.error('Sign-out error:', error);
     }
