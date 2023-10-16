@@ -6,7 +6,7 @@ import axios from 'axios';
 import Logo from "../Logo";
 
 import '../Auth/style.css'
-import { Login, SignUp } from '../../services/API.js';
+import {BASE_URL } from '../../services/API.js';
 const AuthLogin = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -52,7 +52,7 @@ const AuthLogin = () => {
 
   const isEmailExist = async () => {
     try {
-      const res = await axios.get(`http://localhost:5070/Auth/isEmailExists?email=${(data.email)}`);
+      const res = await axios.get(`${BASE_URL}/Auth/isEmailExists?email=${(data.email)}`);
       console.log(res);
 
       if (res.data === "email already exists.") {
@@ -94,7 +94,7 @@ const AuthLogin = () => {
 
   const signUpApi = async (username, email, uniqueId) => {
     try {
-      const response = await axios.post('http://localhost:5070/Auth/signUp', {
+      const response = await axios.post(`${BASE_URL}/Auth/signUp`, {
         username,
         email,
         uniqueId,
