@@ -23,9 +23,7 @@ const NavBar = ({ userRole }) => {
       localStorage.removeItem('roleId');
       localStorage.removeItem('userId');
       localStorage.removeItem('tokenid');
-      navigate('/');
-     
-      localStorage.removeItem("userName");
+      navigate('/');     
     } catch (error) {
       console.error('Sign-out error:', error);
     }
