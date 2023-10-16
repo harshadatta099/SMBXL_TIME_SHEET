@@ -13,16 +13,9 @@ import AdminComponent from './components/Admin/AdminComponent'
 import Navbar from './components/Navbar'
 import GetUserDataById from './components/HR/GetUserDataById'
 import TableData from './components/Admin/TableData'
-import Login from './components/Auth/Login'
 import AuthLogin from './components/Auth/AuthLogin'
-import Signup from './components/Auth/Signup'
 import NotFoundPage from './components/NotFound/NotFound'
-import ForgotPassword from './components/Auth/ForgotPassword'
-import ResetPassword from './components/Auth/ResetPassword'
-import OTPVerification from './components/Auth/OTPVerification'
 import { AuthGuard, PrivateRoute } from './components/Auth/Auth'
-import EmailVerification from './components/Auth/EmailVerification'
-import Home from './components/Home'
 
 const App = () => {
   const [userRole, setUserRole] = useState('');
@@ -31,7 +24,7 @@ const App = () => {
     const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn'));
     const roleId = localStorage.getItem('roleId');
 
-    // Check if the user is logged in and set the user role accordingly
+    
     if (isLoggedIn) {
       const userRole = roleId === '1' ? 'user' : roleId === '2' ? 'hr' : roleId === '3' ? 'admin' : '';
       setUserRole(userRole);
@@ -46,21 +39,7 @@ const App = () => {
         <Route path='/' element={
           <AuthGuard element={<AuthLogin/>}/>
         } />
-        <Route path='/forgot-password' element={
-         <ForgotPassword/>}
-         />
-        <Route path='/reset-password' element={
-         <ResetPassword/>
-        } />
-        <Route path='/verify-otp' element={
-         <OTPVerification/>
-        } />
-        <Route path='/verify-email' element={
-         <EmailVerification/>
-        } />
-        <Route path='/signup' element={<AuthGuard
-          element={<Signup />}
-        />} />
+       
 
         {/* User Routes */}
         <Route
@@ -93,7 +72,6 @@ const App = () => {
         />
         <Route path='/user-details' element={<TableData />} />
         <Route path='/user-records' element={<GetUserDataById />} />
-        <Route path='/home' element={<Home/>} />
         {/* Default route for unknown URLs */}
         <Route path='*' element={<NotFoundPage />} />
       </Routes>
