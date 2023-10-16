@@ -7,16 +7,8 @@ import {msalInstance} from './../config.js'
 const NavBar = ({ userRole }) => {
   const navigate = useNavigate();
    const location = useLocation();
-  const hideHeader = location.pathname === "/signup" || location.pathname === "/" || location.pathname === "/forgot-password" || location.pathname === "/reset-password" || location.pathname === "/verify-otp" || location.pathname === "/verify-email" ;
-  const handleLogout = () => {
-    console.log('logout');
-    localStorage.setItem('isLoggedIn', 'false');
-    localStorage.removeItem('user');
-    localStorage.removeItem('roleId');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('userRole');
-    navigate('/');
-  };
+  const hideHeader =  location.pathname === "/" ;
+
   useEffect(() => {
     async function initializeMsal() {
       await msalInstance.initialize();
@@ -27,6 +19,10 @@ const NavBar = ({ userRole }) => {
   const logout = async () => {
     try {
       await msalInstance.logoutPopup();
+      localStorage.setItem('isLoggedIn', 'false');
+      localStorage.removeItem('roleId');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('tokenid');
       navigate('/');
      
       localStorage.removeItem("userName");

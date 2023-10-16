@@ -1,15 +1,20 @@
-import React from 'react'
+import React,{useState} from 'react'
 import AddTasks from './AddTasks'
 import FetchData from './FetchData'
 
 const User = () => {
+  const [fetchDataFlag, setFetchDataFlag] = useState(false);
+
+  const triggerFetchData = () => {
+    setFetchDataFlag(!fetchDataFlag);
+  }
   return (
     <div>
       <div className='mt-3'>
-        <AddTasks />
+        <AddTasks onTaskAdded={triggerFetchData} />
       </div>
       <br />
-      <FetchData />
+      <FetchData fetchDataFlag={fetchDataFlag}/>
     </div>
   )
 }

@@ -4,7 +4,7 @@ const Logo = () => {
   return (
     <div className="text-center mt-2"
     >
-    <img src={logo} alt="image not found" />
+    <img src={logo} alt="image not found" width='400px'/>
     </div>
   )
 }

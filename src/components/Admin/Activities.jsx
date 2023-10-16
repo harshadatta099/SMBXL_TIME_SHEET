@@ -137,7 +137,7 @@ const Activities = () => {
                 <td>
                   {activity.activityName}
                 </td>
-                <td>
+                <td className='text-center'>
                   <FontAwesomeIcon
                     icon={faTrash}
                     style={{ color: "#FF0000", cursor: "pointer" }}

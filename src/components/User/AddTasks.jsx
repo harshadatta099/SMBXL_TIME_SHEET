@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Container, Table, Form, Button } from 'react-bootstrap'
-import axios from 'axios'
 import {
   fetchAllProjects,
   fetchAllActivities,
-  BASE_URL
+  addTask
 } from '../../services/API'
-const AddTasks = () => {
+const AddTasks = ({onTaskAdded }) => {
   const [projectNames, setProjectNames] = useState([])
   const [activityNames, setActivityNames] = useState([])
   const [selectedProject, setSelectedProject] = useState('')
   const [selectedActivity, setSelectedActivity] = useState('')
   const [task, setTask] = useState('')
-  // const [selectedId, setSelectedId] = useState(0);
   const [relatedActivities, setRelatedActivities] = useState([]);
 
   const [dayDates, setDayDates] = useState(Array(6).fill('')) // Reduced to 6 days, excluding Sunday
@@ -22,7 +20,6 @@ const AddTasks = () => {
     const dayOfWeek = today.getDay()
     const weekStart = new Date(today)
 
-    // Skip Sunday (dayOfWeek = 0) by adding 1 to the start day
     weekStart.setDate(today.getDate() - dayOfWeek + 1)
 
     const dates = [...Array(6)].map((_, i) => {
@@ -35,11 +32,11 @@ const AddTasks = () => {
   }
   useEffect(() => {
     fetchAllProjects().then(data => {setProjectNames(data)
-    console.log(data);
+   
     })
     fetchAllActivities().then(data => {
       setActivityNames(data)
-      console.log(data);
+     
     })
   }, []);
 
@@ -54,7 +51,7 @@ const AddTasks = () => {
       setRelatedActivities([]);
     }
   }, [selectedProject, activityNames]);
-  const tokenid = localStorage.getItem('tokenid');
+  // const tokenid = localStorage.getItem('tokenid');
 
   const formatDate = date => {
     const options = {
@@ -77,13 +74,12 @@ const AddTasks = () => {
       !task ||
       !dayDates[todayIndex]
     ) {
-      // Check if any of the required fields are empty
+      
       alert('Please fill in all the fields before adding the task.')
       return
     }
 
-    const userId = localStorage.getItem('userId') // Get userId from localStorage
-
+    const userId = localStorage.getItem('userId') 
     if (!userId) {
       alert('User ID not found in localStorage. Please login again.')
       return
@@ -97,16 +93,10 @@ const AddTasks = () => {
       userId: parseInt(userId), 
       activityId: parseInt(selectedActivity)
     }
-    const headers = { Authorization: `Bearer ${tokenid}` };
-    await axios
-      .post(`${BASE_URL}/NewUser/addTask`, data, { headers })
-      .then(response => {
-       
-        console.log('Task added successfully!', response)
-      })
-      .catch(error => {
-        console.error('Error adding task:', error)
-      })
+   
+   addTask(data).then(()=>onTaskAdded()) // Add task API 
+    
+   // Rest the input fields
 
     setSelectedProject('')
     setSelectedActivity('')

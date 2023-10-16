@@ -1,0 +1,24 @@
+.main {
+  background-image: url("../../assets/Login-Design.svg");
+  position: relative;
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  /* padding-top: 63%; */
+  height: 100vh;
+}
+.log-screen{
+    position: absolute;
+    top:10%;
+    right:20%;
+       
+}
+.login-content{
+    width: 300px;
+    min-height: 250px;
+}
+
+.signin-cta{
+    font-size: 30px;
+   
+}

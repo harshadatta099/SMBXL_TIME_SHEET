@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { Form, Button, Alert, Card } from "react-bootstrap";
 import { msalInstance } from '../../config.js';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Logo from "../Logo";
 
+import '../Auth/style.css'
+import { Login, SignUp } from '../../services/API.js';
 const AuthLogin = () => {
   const navigate = useNavigate();
   const [data, setData] = useState({
@@ -24,12 +28,17 @@ const AuthLogin = () => {
     }
   }, [data.email]);
 
+  const roleNavigation = {
+    "1": "/user",
+    "2": "/hr",
+    "3": "/admin"
+  };
   const login = async () => {
     try {
       await msalInstance.loginPopup();
       const userAccount = msalInstance.getAllAccounts()[0];
       console.log(userAccount);
-      
+
       setData({
         ...data,
         email: userAccount.username,
@@ -45,10 +54,9 @@ const AuthLogin = () => {
     try {
       const res = await axios.get(`http://localhost:5070/Auth/isEmailExists?email=${(data.email)}`);
       console.log(res);
-  
+
       if (res.data === "email already exists.") {
-        const { roleId, userId, tokenid } = response.data;
-        localStorage.setItem("tokenId", )
+
         loginApi(data.email, data.uniqueId);
       } else {
         signUpApi(data.username, data.email, data.uniqueId);
@@ -57,7 +65,7 @@ const AuthLogin = () => {
       console.error('isEmailExists API error:', error);
     }
   };
-  
+
 
   const loginApi = async (email, uniqueId) => {
     try {
@@ -66,7 +74,17 @@ const AuthLogin = () => {
         uniqueId,
       });
       if (response.status === 200) {
-        navigate('/home');
+        const { roleId, userId, tokenid } = response.data;
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("tokenid", tokenid);
+        localStorage.setItem("roleId", roleId);
+        localStorage.setItem("userId", userId);
+        const userRole = localStorage.getItem("roleId");
+        const destination = roleNavigation[userRole];
+        if (destination) {
+          navigate(destination, { replace: true });
+          window.location.reload();
+        }
       }
       console.log('Login API Response:', response.data);
     } catch (error) {
@@ -82,7 +100,18 @@ const AuthLogin = () => {
         uniqueId,
       });
       if (response.status === 200) {
-        navigate('/home');
+        const { roleId, userId, tokenid } = response.data;
+
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("tokenid", tokenid);
+        localStorage.setItem("roleId", roleId);
+        localStorage.setItem("userId", userId);
+        const userRole = localStorage.getItem("roleId");
+        const destination = roleNavigation[userRole];
+        if (destination) {
+          navigate(destination, { replace: true });
+          window.location.reload();
+        }
       }
       console.log('Sign Up API Response:', response.data);
     } catch (error) {
@@ -90,13 +119,25 @@ const AuthLogin = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Sign In</h2>
-      <p>Click the button to sign in:</p>
-      <button className='btn btn-primary' onClick={login}>Sign In</button>
+  return <>
+    <div className='main'>
+      <div className="log-screen">
+        <div className="login-content">
+          <div className='logo'>
+            <Logo />
+          </div>
+          <h5 className='mt-3'>Please click the button below to sign in.</h5>
+          <Button variant="primary" type="submit" className="mt-3 w-100 signin-cta " onClick={login} >
+            <span className='fs-bold signin-cta'>SignIn</span>
+          </Button>
+          {/* <h2 className='mt-5'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, deleniti.</h2> */}
+        </div>
+      </div>
     </div>
-  );
+
+
+
+  </>
 };
 
 export default AuthLogin;

@@ -76,7 +76,6 @@ const GetAllData = () => {
             <th>User ID</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Mobile No</th>
             <th>Delete</th>
           </tr>
         </thead>
@@ -89,7 +88,6 @@ const GetAllData = () => {
               <td onClick={() => handleUserRowClick(user.userId)}>{user.userId}</td>
               <td onClick={() => handleUserRowClick(user.userId)}>{user.username}</td>
               <td onClick={() => handleUserRowClick(user.userId)}>{user.email}</td>
-              <td onClick={() => handleUserRowClick(user.userId)}>{user.mobileno}</td>
               <td>
                 <div>
                   <FontAwesomeIcon

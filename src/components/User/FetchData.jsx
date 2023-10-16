@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Table, Form } from "react-bootstrap";
 import { getUserDataForWeek } from "../../services/API";
 
-const FetchData = () => {
+const FetchData = ({ fetchDataFlag }) => {
   const userId = localStorage.getItem("userId");
 
   const [tasksData, setTasksData] = useState([
@@ -47,30 +47,26 @@ const FetchData = () => {
     }, 0);
     return totalHours;
   };
-
+  const fetchData = () => {
+    getUserDataForWeek(userId, inputDate)
+      .then((data) => {
+        setTasksData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      })
+      
+  };
   useEffect(() => {
-    let timeoutId;
+   if(fetchDataFlag){
+     fetchData();
+   }
   
-    const fetchData = () => {
-      getUserDataForWeek(userId, inputDate)
-        .then((data) => {
-          setTasksData(data);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-        })
-        .finally(() => {
-          
-          timeoutId = setTimeout(fetchData, 1000);
-        });
-    };
+  }, [userId, inputDate,fetchDataFlag]); 
   
-   
+  useEffect(()=>{
     fetchData();
-  
-    return () => clearTimeout(timeoutId);
-  }, [userId, inputDate]); 
-  
+  },[])
 
   const formatDate = (date) => {
     const options = {

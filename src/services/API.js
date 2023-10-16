@@ -5,7 +5,7 @@ const getNetworkIP = () => {
     return 'http://192.168.1.2:5070';
   } else if (window.location.hostname === '192.168.200.2') {
     return 'http://192.168.200.2:5070';
-  } else{
+  } else {
     return 'localhost:5070';
   }
 };
@@ -18,19 +18,19 @@ const getTokenIdFromLocalStorage = () => {
 
 
 const endpoints = {
-  getUserDataByUserId: userId =>`${BASE_URL}/NewUser/getUserDataByUserid?userid=${userId}`,
+  getUserDataByUserId: userId => `${BASE_URL}/NewUser/getUserDataByUserid?userid=${userId}`,
   addTask: () => `${BASE_URL}/NewUser/addTask`,
-  editTaskByTimesheetId: timesheetId =>`${BASE_URL}/NewUser/editTaskByTimesheetid?timesheetId=${timesheetId}`,
-  deleteTimesheetByTimesheetId: timesheetId =>`${BASE_URL}/NewUser/deleteTaskByTimesheetid?Timesheetid=${timesheetId}`,
-  getTotalHoursWorked: (userId, date) =>`${BASE_URL}/NewUser/getTotalHoursWorked?userid=${userId}&date=${date}`,
+  editTaskByTimesheetId: timesheetId => `${BASE_URL}/NewUser/editTaskByTimesheetid?timesheetId=${timesheetId}`,
+  deleteTimesheetByTimesheetId: timesheetId => `${BASE_URL}/NewUser/deleteTaskByTimesheetid?Timesheetid=${timesheetId}`,
+  getTotalHoursWorked: (userId, date) => `${BASE_URL}/NewUser/getTotalHoursWorked?userid=${userId}&date=${date}`,
   getAllUsers: () => `${BASE_URL}/Admin/getAllUsers`,
   getAllTimesheets: () => `${BASE_URL}/Admin/getAllUserRecords`,
-  getAllTimesheetsbyId: userId =>`${BASE_URL}/Admin/getTimeSheetsByUserId?userid=${userId}`,
+  getAllTimesheetsbyId: userId => `${BASE_URL}/Admin/getTimeSheetsByUserId?userid=${userId}`,
   getAllProjects: () => `${BASE_URL}/NewUser/getAllProjects`,
   getAllActivities: () => `${BASE_URL}/NewUser/getAllActivities`,
-  getUserDataForWeek: (userId, inputDate) =>`${BASE_URL}/NewUser/getUserDataForWeek?userid=${userId}&inputDate=${inputDate}`,
-  login: ()=>`${BASE_URL}/Auth/login`,
-  signUp: ()=>`${BASE_URL}/Auth/signUp`
+  getUserDataForWeek: (userId, inputDate) => `${BASE_URL}/NewUser/getUserDataForWeek?userid=${userId}&inputDate=${inputDate}`,
+  login: () => `${BASE_URL}/Auth/login`,
+  signUp: () => `${BASE_URL}/Auth/signUp`
 };
 
 
@@ -105,7 +105,7 @@ export const deleteActivity = async activityName => {
   return fetchData(url, 'DELETE', activityName);
 }
 
-export const deleteProject = async projectName=> {
+export const deleteProject = async projectName => {
   const url = `${BASE_URL}/Admin/deleteProject`
   return fetchData(url, 'DELETE', projectName)
 }
@@ -119,14 +119,14 @@ export const addActivity = async activity => {
   const url = `${BASE_URL}/Admin/addActivity`
   return fetchData(url, 'POST', activity)
 }
-export const Login = async (email,username)=>{
-  const url = endpoints.login(email,username);
-  return fetchData(url,'POST');
+export const Login = async (email, username) => {
+  const url = endpoints.login();
+  return fetchData(url, 'POST', { email, username });
 }
 
-export const SignUp = async (email,username,uniqueId)=>{
-  const url = endpoints.signUp(email,username,uniqueId);
-  return fetchData(url,'POST');
+export const SignUp = async (email, username, uniqueId) => {
+  const url = endpoints.signUp();
+  return fetchData(url, 'POST', { email, username, uniqueId });
 }
 
 export const getRecordsBetweenTwoDates = async (startDate, endDate) => {

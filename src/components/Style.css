@@ -1,12 +1,12 @@
 .signup-link {
     text-decoration: none;
-    color: #007bff; /* Blue color, you can change it to your desired color */
+    color: #007bff; 
     font-weight: 700;
     transition: color 0.3s ease-in-out;
   }
   
   .signup-link:hover {
-    color: #0056b3; /* Darker shade of the blue color on hover */
+    color: #0056b3; 
   }
   
 
