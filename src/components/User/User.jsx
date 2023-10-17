@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import AddTasks from './AddTasks'
 import FetchData from './FetchData'
 
@@ -8,6 +8,11 @@ const User = () => {
   const triggerFetchData = () => {
     setFetchDataFlag(!fetchDataFlag);
   }
+  useEffect(() => {
+    if (fetchDataFlag) {
+      setFetchDataFlag(false);
+    }
+  }, [fetchDataFlag]);
   return (
     <div>
       <div className='mt-3'>
