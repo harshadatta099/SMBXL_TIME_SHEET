@@ -7,18 +7,42 @@
   /* padding-top: 63%; */
   height: 100vh;
 }
-.log-screen{
-    position: absolute;
-    top:10%;
-    right:20%;
-       
-}
 .login-content{
-    width: 300px;
     min-height: 250px;
 }
 
 .signin-cta{
     font-size: 30px;
    
+}
+.log-screen {
+
+border: 1px solid #888;
+    max-width: 75%;
+    padding: 50px 30px;
+    border-radius: 7px;
+    box-shadow: 0 4px 4px #00000040;
+
+}
+button.mt-3.signin-cta.btn.btn-primary {
+    margin: 0 auto;
+    display: flex;
+    padding: 5px 30px;
+    /* border-radius: 30px; */
+}
+.screen {
+    max-width: 60%;
+    display: flex;
+    align-items: center;
+    gap: 75px;
+    position: absolute;
+    top:10%;
+    right:20%;
+}
+@media only screen and (max-width:767px) {
+    .log-screen {
+        position: relative;
+        max-width: 90%;
+    
+    }
 }

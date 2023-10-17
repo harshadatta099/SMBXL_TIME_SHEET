@@ -69,7 +69,7 @@ const AuthLogin = () => {
 
   const loginApi = async (email, uniqueId) => {
     try {
-      const response = await axios.post('http://localhost:5070/Auth/login', {
+      const response = await axios.post(`${BASE_URL}/Auth/login`, {
         email,
         uniqueId,
       });
@@ -121,18 +121,22 @@ const AuthLogin = () => {
 
   return <>
     <div className='main'>
-      <div className="log-screen">
+      <div className="screen">
+        <div className="htext"><h2>Welcome!</h2></div>
+        <div className="log-screen">
         <div className="login-content">
           <div className='logo'>
             <Logo />
           </div>
-          <h5 className='mt-3'>Please click the button below to sign in.</h5>
-          <Button variant="primary" type="submit" className="mt-3 w-100 signin-cta " onClick={login} >
+          <h5 className='mt-3 text-center'>Please click the button below to sign in.</h5>
+          <Button variant="primary" type="submit" className="mt-3 signin-cta " onClick={login} >
             <span className='fs-bold signin-cta'>SignIn</span>
           </Button>
           {/* <h2 className='mt-5'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ullam, deleniti.</h2> */}
         </div>
       </div>
+      </div>
+      
     </div>
 
 

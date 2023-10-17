@@ -54,7 +54,6 @@ const GetUsers = () => {
             <th>User ID</th>
             <th>Username</th>
             <th>Email</th>
-            <th>Mobile No</th>
           </tr>
         </thead>
         <tbody>
@@ -72,9 +71,7 @@ const GetUsers = () => {
               <td>
                 {user.email}
               </td>
-              <td>
-                {user.mobileno}
-              </td>
+             
             </tr>
           )}
         </tbody>

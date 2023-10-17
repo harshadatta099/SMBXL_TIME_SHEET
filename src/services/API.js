@@ -2,9 +2,9 @@ import axios from 'axios'
 
 const getNetworkIP = () => {
   if (window.location.hostname === '192.168.1.2') {
-    return 'http://192.168.1.2:5070';
+    return 'https://192.168.1.2:5070';
   } else if (window.location.hostname === '192.168.200.2') {
-    return 'http://192.168.200.2:5070';
+    return 'https://192.168.200.2:5070';
   } else {
     return 'http://localhost:5070';
   }
