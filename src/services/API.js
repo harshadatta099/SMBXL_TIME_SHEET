@@ -10,7 +10,7 @@ import axios from 'axios'
 //   }
 // };
 // export const BASE_URL = getNetworkIP();
-export const BASE_URL = 'https://internalportal.smbxl.com/API'
+export const BASE_URL = 'https://internalportalapi.smbxl.com/'
 
 const getTokenIdFromLocalStorage = () => {
   return localStorage.getItem('tokenid');
